@@ -1,2 +1,2 @@
 # fighting-game-finder
-A web application for locating nearby fighting game communities through the Google Maps API.
+A web application for locating fighting game communities through the Open Source Route Machine (OSRM) API.
