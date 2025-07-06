@@ -1,23 +1,8 @@
-from flask import Flask # import flask module
-import psycopg # postgresql module
-import os # for obtaining environment variables
-
-from dotenv import load_dotenv
-
-load_dotenv()
-
-#print('DATABASE_USER: ', os.getenv('DATABASE_USER'))
-#print('DATABASE_PASSWORD: ', os.getenv('DATABASE_PASSWORD'))
-#print('DATABASE_HOST_NAME: ', os.getenv('DATABASE_HOST_NAME'))
-
-DATABASE_USER = os.getenv('DATABASE_USER')
-DATABASE_PASSWORD = os.getenv('DATABASE_PASSWORD')
-DATABASE_HOST_NAME = os.getenv('DATABASE_HOST_NAME')
-DATABASE_PORT = os.getenv('DATABASE_PORT')
-DATABASE_NAME = os.getenv('DATABASE_NAME')
+# Note: the module name is psycopg, not psycopg3
+import psycopg
 
 # Connect to an existing database
-with psycopg.connect(f"postgresql://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATABASE_HOST_NAME}:{DATABASE_PORT}/{DATABASE_NAME}") as conn:
+with psycopg.connect("postgresql://user:user_password@db_server_hostname:5432") as conn:
 
     # Open a cursor to perform database operations
     with conn.cursor() as cur:
@@ -48,14 +33,3 @@ with psycopg.connect(f"postgresql://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATABAS
 
         # Make the changes to the database persistent
         conn.commit()
-
-# instance of flask application
-app = Flask(__name__)
-
-# home route that returns below text when root url is accessed
-@app.route("/")
-def hello_world():
-    return "<p>Hello, World!</p>"
-
-if __name__ == '__main__':  
-   app.run()
