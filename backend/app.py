@@ -22,13 +22,13 @@ with psycopg.connect(f"postgresql://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATABAS
     # Open a cursor to perform database operations
     with conn.cursor() as cur:
 
-        # Execute a command: this creates a new table
+        # Execute a command: this creates a new table, if it doesn't already exist
         cur.execute("""
-            CREATE TABLE test (
+            CREATE TABLE IF NOT EXISTS test (
                 id serial PRIMARY KEY,
                 num integer,
                 data text)
-            """)
+            """)            
 
         # Pass data to fill a query placeholders and let Psycopg perform
         # the correct conversion (no SQL injections!)
