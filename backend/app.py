@@ -1,15 +1,29 @@
-from flask import Flask # import flask module
-import psycopg # postgresql module
+from asyncio.windows_events import NULL
+from flask import Flask, request, jsonify # import flask module
+import pandas as pd # pandas for creating a dataframe from the spreadsheet
+import psycopg # postgreSQL module
 import os # for obtaining environment variables
+from dotenv import load_dotenv # for manipulating environment variables
 
-from dotenv import load_dotenv
+# Iterate through the data directory until a spreadsheet is found
+def GetFirstSpreadsheet(path):
+    for file in os.listdir(path):
+        if file.endswith(".xlsx"):
+            data = pd.read_excel(file)
+            return data
 
+# Obtain the spreadsheet as a dataframe
+def GetData():
+    path = os.path.join(os.curdir, "data")
+    if os.path.isdir(path):
+        return GetFirstSpreadsheet(path)
+    else:
+        return NULL
+
+# load environment variables from a .env file into the application's environment
 load_dotenv()
-
-#print('DATABASE_USER: ', os.getenv('DATABASE_USER'))
-#print('DATABASE_PASSWORD: ', os.getenv('DATABASE_PASSWORD'))
-#print('DATABASE_HOST_NAME: ', os.getenv('DATABASE_HOST_NAME'))
-
+  
+# obtain the environment variables for establishing a connection
 DATABASE_USER = os.getenv('DATABASE_USER')
 DATABASE_PASSWORD = os.getenv('DATABASE_PASSWORD')
 DATABASE_HOST_NAME = os.getenv('DATABASE_HOST_NAME')
@@ -55,7 +69,8 @@ app = Flask(__name__)
 # home route that returns below text when root url is accessed
 @app.route("/")
 def hello_world():
-    return "<p>Hello, World!</p>"
+    #return "<p>Hello, World!</p>"
+    return GetData()
 
 if __name__ == '__main__':  
    app.run()
