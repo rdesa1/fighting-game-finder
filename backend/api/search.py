@@ -11,6 +11,9 @@ search_bp = Blueprint('search', __name__)
 @search_bp.route('/<state>/<city>')
 def get_query_results(state, city=None):
 
+    # The database is case sensitive. Ensure the first letter of the query is capitalized
+    state = state.capitalize()
+
     # load environment variables from a .env file into the application's environment
     load_dotenv()
 
@@ -27,9 +30,8 @@ def get_query_results(state, city=None):
             with conn.cursor() as cur:
 
                 
-                if city:
-                    # The database is case sensitive, ensure the first letter of the input is capitalized
-                    city = city.capitalize() 
+                if city:                    
+                    city = city.capitalize() # Capitalize the city if its been provided
 
                     # Query the database for active locations from the same state ("Subnational" in the table)
                     postgreSQL_select_Query = '''
