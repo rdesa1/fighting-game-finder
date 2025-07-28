@@ -11,6 +11,10 @@ search_bp = Blueprint('search', __name__)
 @search_bp.route('/<state>/<city>')
 def get_query_results(state, city=None):
 
+    # The database is case sensitive, ensure the first letter of the input is capitalized
+    if city:
+        city = city.capitalize()
+
     # load environment variables from a .env file into the application's environment
     load_dotenv()
 
@@ -26,21 +30,16 @@ def get_query_results(state, city=None):
         with psycopg.connect(f"postgresql://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATABASE_HOST_NAME}:{DATABASE_PORT}/{DATABASE_NAME}") as conn:
             with conn.cursor() as cur:
 
-                if city:
-
-                    # Normalize the input
-                    city = city.capitalize() 
-
-                    # Query the database for active locations from the same state ("Subnational" in the table)
-                    postgreSQL_select_Query = 'SELECT * from "Locals" WHERE "Country" = %s AND "Subnational" = %s AND "Metro Area" = %s AND "Status" = %s'
-                    cur.execute(postgreSQL_select_Query, ("USA", state, city, "Active"))
-                    results = cur.fetchall()
-
-                else:
-                    # Query the database for active locations from the same state ("Subnational" in the table)
-                    postgreSQL_select_Query = 'SELECT * from "Locals" WHERE "Country" = %s AND "Subnational" = %s AND "Status" = %s'
-                    cur.execute(postgreSQL_select_Query, ("USA", state, "Active"))
-                    results = cur.fetchall()
+                # Query the database for active locations from the same state ("Subnational" in the table)
+                postgreSQL_select_Query = '''
+                SELECT * from "Locals" 
+                WHERE "Country" = %s 
+                AND "Subnational" = %s
+                AND ("Metro Area" = %s or "Metro Area" = NULL or "Metro Area" IS NOT NULL)
+                AND "Status" = %s
+                '''
+                cur.execute(postgreSQL_select_Query, ("USA", state, city, "Active"))
+                results = cur.fetchall()
 
     except (Exception, psycopg.Error) as error:
         print ("Error fetching data from PostgreSQL table", error)
