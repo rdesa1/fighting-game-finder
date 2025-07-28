@@ -58,4 +58,7 @@ def get_query_results(state, city=None):
     except (Exception, psycopg.Error) as error:
         print ("Error fetching data from PostgreSQL table", error)
 
+    # leaving contexts doesn't close the connection
+    conn.close()
+
     return jsonify(results)
