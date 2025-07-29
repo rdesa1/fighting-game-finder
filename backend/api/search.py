@@ -2,7 +2,8 @@ from flask import Blueprint, jsonify
 import os
 from dotenv import load_dotenv # for manipulating environment variables
 import psycopg # postgreSQL module
-import string
+import string # for normalizing the input for case sensitivity
+import re # for using regex to normalize certain user inputs
 
 # Create a blueprint instance
 search_bp = Blueprint('search', __name__)
@@ -30,7 +31,6 @@ def get_query_results(state, city=None):
         with psycopg.connect(f"postgresql://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATABASE_HOST_NAME}:{DATABASE_PORT}/{DATABASE_NAME}") as conn:
             with conn.cursor() as cur:
 
-                
                 if city:                    
                     city = string.capwords(city) # Capitalize the city if its been provided
 
@@ -64,7 +64,25 @@ def get_query_results(state, city=None):
     # leaving contexts doesn't close the connection
     conn.close()
 
-    if city:
-        print(city)
-
     return jsonify(results)
+
+def normalize_city_name(city):
+
+    # Check if the provided city is located within Southern California. If yes, normalize it to "SoCal".
+    if (("Los Angelas" in city) or 
+        ("LA" in city) or 
+        ("San Diego" in city) or 
+        ("Anaheim" in city) or 
+        ("Irvine" in city) or 
+        ("Santa Ana" in city) or
+        ("Chula Vista" in city) or
+        ("Carlsbad" in city) or
+        ("El Centro" in city) or
+        ("Yuba City" in city) or
+        ("Inglewood" in city) or
+        ("Hawthorne" in city) or
+        ("Calexico" in city) or 
+        ("Brawley" in city)):
+        return ("SoCal")
+    else:
+        return city
