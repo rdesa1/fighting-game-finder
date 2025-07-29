@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify
 import os
 from dotenv import load_dotenv # for manipulating environment variables
 import psycopg # postgreSQL module
+import string
 
 # Create a blueprint instance
 search_bp = Blueprint('search', __name__)
@@ -11,8 +12,8 @@ search_bp = Blueprint('search', __name__)
 @search_bp.route('/<state>/<city>')
 def get_query_results(state, city=None):
 
-    # The database is case sensitive. Ensure the first letter of the query is capitalized
-    state = state.capitalize()
+    # The database is case sensitive. Ensure the first letter of every word is capitalized.
+    state = string.capwords(state)
 
     # load environment variables from a .env file into the application's environment
     load_dotenv()
@@ -31,7 +32,9 @@ def get_query_results(state, city=None):
 
                 
                 if city:                    
-                    city = city.capitalize() # Capitalize the city if its been provided
+                    city = string.capwords(city) # Capitalize the city if its been provided
+
+                    print(state, city)
 
                     # Query the database for active locations from the same state ("Subnational" in the table)
                     postgreSQL_select_Query = '''
@@ -60,5 +63,8 @@ def get_query_results(state, city=None):
 
     # leaving contexts doesn't close the connection
     conn.close()
+
+    if city:
+        print(city)
 
     return jsonify(results)
