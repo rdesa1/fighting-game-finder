@@ -32,9 +32,10 @@ def get_query_results(state, city=None):
             with conn.cursor() as cur:
 
                 if city:                    
-                    city = string.capwords(city) # Capitalize the city if its been provided
+                    city = normalize_city_name(state, city)
 
-                    print(state, city)
+                    print(city)
+                    print(state)
 
                     # Query the database for active locations from the same state ("Subnational" in the table)
                     postgreSQL_select_Query = '''
@@ -64,25 +65,51 @@ def get_query_results(state, city=None):
     # leaving contexts doesn't close the connection
     conn.close()
 
-    return jsonify(results)
+    return jsonify(200, results)
 
-def normalize_city_name(city):
+# Function for normalizing user input for cities to adjust for database quirks like case-sensitivity.
+def normalize_city_name(state, city):
+
+    # Capitalize the name of the city
+    city = string.capwords(city) 
 
     # Check if the provided city is located within Southern California. If yes, normalize it to "SoCal".
-    if (("Los Angelas" in city) or 
-        ("LA" in city) or 
-        ("San Diego" in city) or 
-        ("Anaheim" in city) or 
-        ("Irvine" in city) or 
-        ("Santa Ana" in city) or
-        ("Chula Vista" in city) or
-        ("Carlsbad" in city) or
-        ("El Centro" in city) or
-        ("Yuba City" in city) or
-        ("Inglewood" in city) or
-        ("Hawthorne" in city) or
-        ("Calexico" in city) or 
-        ("Brawley" in city)):
-        return ("SoCal")
-    else:
-        return city
+    while (state == "California"):
+        if (("Los Angelas" in city) or 
+            ("La" in city) or 
+            ("LA" in city) or
+            ("San Diego" in city) or 
+            ("Anaheim" in city) or 
+            ("Irvine" in city) or 
+            ("Santa Ana" in city) or
+            ("Chula Vista" in city) or
+            ("Carlsbad" in city) or
+            ("El Centro" in city) or
+            ("Yuba City" in city) or
+            ("Inglewood" in city) or
+            ("Hawthorne" in city) or
+            ("Calexico" in city) or 
+            ("Brawley" in city)):
+            return ("SoCal")
+
+    # Check if the provided city is located within the Virgina-DMV Metropolitan Area. If yes, normalize it to "DMV".
+    while (state == "Virginia"):
+        if (("Dmv" in city)
+            or ("Alexandria" in city)
+            or ("Arlington" in city)
+            or ("Fairfax" in city)
+            or ("Fredericksburg" in city)
+            or ("Falls Church" in city)
+            or ("Reston" in city)
+            or ("Tysons" in city)
+            or ("Lorton" in city)
+            or ("Annandale" in city)):
+               return ("DMV")
+
+    # Hiphenated names like "Urbana-Champaign" are missed by string.capwords(). They have to be manually accounted for.
+    while (state == "Illinois"):
+        if (("Urbana-champaign" in city) 
+              or ("Urbana champaign" in city)):
+                return ("Urbana-Champaign")
+
+    return city
