@@ -12,7 +12,6 @@ search_bp = Blueprint('search', __name__)
 @search_bp.route('/<state>', methods=['GET'])
 @search_bp.route('/<state>/')
 @search_bp.route('/<state>/<city>')
-@search_bp.route('/<state>/<city>/')
 def get_query_results(state, city=None):
 
     # The database is case sensitive. Ensure the first letter of every word is capitalized.
@@ -76,7 +75,7 @@ def normalize_city_name(state, city):
     city = string.capwords(city) 
 
     # Check if the provided city is located within Southern California. If yes, normalize it to "SoCal".
-    while (state == "California"):
+    if (state == "California"):
         if (("Los Angelas" in city) or 
             ("La" in city) or 
             ("LA" in city) or
@@ -95,7 +94,7 @@ def normalize_city_name(state, city):
             return ("SoCal")
 
     # Check if the provided city is located within the Virgina-DMV Metropolitan Area. If yes, normalize it to "DMV".
-    while (state == "Virginia"):
+    if (state == "Virginia"):
         if (("Dmv" in city)
             or ("Alexandria" in city)
             or ("Arlington" in city)
@@ -109,7 +108,7 @@ def normalize_city_name(state, city):
                return ("DMV")
 
     # Hiphenated names like "Urbana-Champaign" are missed by string.capwords(). They have to be manually accounted for.
-    while (state == "Illinois"):
+    if (state == "Illinois"):
         if (("Urbana-champaign" in city) 
               or ("Urbana champaign" in city)):
                 return ("Urbana-Champaign")
