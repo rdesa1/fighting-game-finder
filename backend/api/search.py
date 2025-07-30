@@ -10,7 +10,9 @@ search_bp = Blueprint('search', __name__)
 
 # Query the database for locations that closely match the user's input
 @search_bp.route('/<state>', methods=['GET'])
+@search_bp.route('/<state>/')
 @search_bp.route('/<state>/<city>')
+@search_bp.route('/<state>/<city>/')
 def get_query_results(state, city=None):
 
     # The database is case sensitive. Ensure the first letter of every word is capitalized.
