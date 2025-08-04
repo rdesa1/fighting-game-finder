@@ -72,7 +72,7 @@ def get_query_results(state, city=None):
 def normalize_city_name(state, city):
 
     # Capitalize the name of the city
-    city = string.capwords(city) 
+    city = string.capwords(city)
 
     # Check if the provided city is located within Southern California. If yes, normalize it to "SoCal".
     if (state == "California"):
@@ -94,7 +94,7 @@ def normalize_city_name(state, city):
             return ("SoCal")
 
     # Check if the provided city is located within the Virgina-DMV Metropolitan Area. If yes, normalize it to "DMV".
-    if (state == "Virginia"):
+    elif (state == "Virginia"):
         if (("Dmv" in city)
             or ("Alexandria" in city)
             or ("Arlington" in city)
@@ -108,7 +108,7 @@ def normalize_city_name(state, city):
                return ("DMV")
 
     # Hiphenated names like "Urbana-Champaign" are missed by string.capwords(). They have to be manually accounted for.
-    if (state == "Illinois"):
+    elif (state == "Illinois"):
         if (("Urbana-champaign" in city) 
               or ("Urbana champaign" in city)):
                 return ("Urbana-Champaign")
