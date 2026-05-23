@@ -68,7 +68,7 @@ def get_query_results(state, city=None):
 
     return jsonify(200, results)
 
-# Function for normalizing user input for cities to adjust for database quirks like case-sensitivity.
+# Function for normalizing user input for cities to adjust for database quirks, like case-sensitivity.
 def normalize_city_name(state, city):
 
     # Capitalize the name of the city
