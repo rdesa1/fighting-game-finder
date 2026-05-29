@@ -1,4 +1,9 @@
-export default function Searchbar(name: string, placeholder: string) {
+interface SearchbarProps {
+     name: string
+     placeholder: string
+}
+
+export default function Searchbar<SearchbarProps>({name, placeholder }) {
      return (
           <search>
                <form>

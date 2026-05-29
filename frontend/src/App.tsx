@@ -15,9 +15,9 @@ function App() {
      return (
 
           <BrowserRouter>
-               <nav>
-                    <Link to="/search_results">Results</Link>
-               </nav>
+               {/*<nav>*/}
+               {/*     <Link to="/search_results">Results</Link>*/}
+               {/*</nav>*/}
 
                <Routes>
                     <Route path="/" element={<Home />} />
