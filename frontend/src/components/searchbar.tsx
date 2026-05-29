@@ -1,8 +1,8 @@
-export default function Searchbar() {
+export default function Searchbar(name: string, placeholder: string) {
      return (
           <search>
                <form>
-                    <input name= "location" placeholder="Enter your State"></input>
+                    <input name={name} placeholder={placeholder}></input>
                </form>
           </search>
      );

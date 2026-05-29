@@ -5,20 +5,12 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import Searchbar from './components/searchbar.tsx'
-import { Search_results } from './pages/search_results.tsx'
-import { BrowserRouter, Routes, Route, Link } from 'react-router';
+import Search_results from './pages/search_results.tsx'
+import { BrowserRouter, Routes, Route, Link } from 'react-router'
+import Home from './pages/home.tsx'
 
 function App() {
      //const [count, setCount] = useState(0);
-
-     //const fetchAPI = async () => {
-     //     const res = await axios.get("http://127.0.0.1:5000/search/massachusetts");
-     //     console.log(res.data);
-     //}
-
-     //useEffect(() => {
-     //     fetchAPI()
-     //},[])
 
      return (
 
@@ -28,20 +20,10 @@ function App() {
                </nav>
 
                <Routes>
-                    <Route path="/" element={<Searchbar />} />
+                    <Route path="/" element={<Home />} />
                     <Route path="/search_results" element={<Search_results />} />
                </Routes>
           </BrowserRouter>
-
-
-
-          //<BrowserRouter>
-          //     <div>
-
-          //          <Searchbar />     
-
-          //     </div>
-          //</BrowserRouter>
      )
 }
 

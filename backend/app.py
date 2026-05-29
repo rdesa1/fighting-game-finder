@@ -15,9 +15,7 @@ app.register_blueprint(search_bp, url_prefix='/search')
 # set a 'SECRET_KEY' to enable the Flask session cookies
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
-
 # a simple page that says hello
 @app.route('/')
-@cross_origin
 def hello():
     return 'Hello, World!'
