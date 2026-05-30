@@ -6,8 +6,13 @@ import axios from "axios";
 export default function Search_results() {
      const [count, setCount] = useState(0);
 
+     let searchTerm = "california";
+
+     // fetch data from backend
      const fetchAPI = async () => {
-          const res = await axios.get("http://127.0.0.1:5000/search/massachusetts");
+          const res = await axios.get(`http://127.0.0.1:5000/search/${searchTerm}`, {
+               timeout: 5000, // timeouts after 5 second wait
+          });
           console.log(res.data);
      }
 

@@ -1,3 +1,5 @@
+// styling: https://legacy.reactjs.org/docs/faq-styling.html
+
 interface SearchbarProps {
      name: string
      placeholder: string
