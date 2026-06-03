@@ -2,9 +2,9 @@
 
 import React, { useState, useEffect, Component } from 'react'
 import axios from "axios";
+import Searchbar from '../components/searchbar.tsx'
 
 export default function Search_results() {
-     const [count, setCount] = useState(0);
 
      let searchTerm = "california";
 
@@ -24,4 +24,3 @@ export default function Search_results() {
           <h1>Check the console for results!</h1>
      )
 }
-
