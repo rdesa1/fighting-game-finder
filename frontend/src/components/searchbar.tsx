@@ -5,8 +5,9 @@ import React, { useState} from "react";
 import axios from "axios";
 
 interface SearchbarProps {
-     name: string
-     placeholder: string
+     name: string;
+     placeholder: string;
+     onSubmit: (ev) => void;
 }
 
 export default function Searchbar<SearchbarProps>({ name, placeholder, onSubmit}) {

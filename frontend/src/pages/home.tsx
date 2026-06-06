@@ -9,26 +9,63 @@ export default function Home() {
      //const [searchTerm, setSearchTerm] = useState("");
      let searchTerm: string;
 
-     const handleSubmit = (e) => {
 
-          // Prevent the browser from reloading the page
-          e.preventDefault();
+     const handleSubmit = (event) => {
+          event.preventDefault();
+          console.log(event.target[0].value)
 
-          // Read the form data
-          //const form = e.target;
-          //const formData = new FormData(form);
+          searchTerm = event.target[0].value;
 
-          searchTerm = e.target.value;
-
-          // fetch data from backend
           const fetchAPI = async () => {
                const res = await axios.get(`http://127.0.0.1:5000/search/${searchTerm}`, {
-                    timeout: 5000, // timeouts after 5 second wait
+                              timeout: 5000, // timeouts after 5 second wait
                });
                console.log(res.data);
           }
+
           fetchAPI();
+
+
      }
+
+
+     //const handleSubmit = (e) => {
+
+     //     // Prevent the browser from reloading the page
+     //     e.preventDefault();
+
+     //     searchTerm = e.target.value;
+
+     //     // fetch data from backend
+     //     const fetchAPI = async () => {
+     //          const res = await axios.get(`http://127.0.0.1:5000/search/${searchTerm}`, {
+     //               timeout: 5000, // timeouts after 5 second wait
+     //          });
+     //          console.log(res.data);
+     //     }
+     //     fetchAPI();
+     //}
+
+     //const handleSubmit = (e) => {
+
+     //     // Prevent the browser from reloading the page
+     //     e.preventDefault();
+
+     //     // Read the form data
+     //     //const form = e.target;
+     //     //const formData = new FormData(form);
+
+     //     searchTerm = e.target.value;
+
+     //     // fetch data from backend
+     //     const fetchAPI = async () => {
+     //          const res = await axios.get(`http://127.0.0.1:5000/search/${searchTerm}`, {
+     //               timeout: 5000, // timeouts after 5 second wait
+     //          });
+     //          console.log(res.data);
+     //     }
+     //     fetchAPI();
+     //}
 
 
      // fetch data from backend
