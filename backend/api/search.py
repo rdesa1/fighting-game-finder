@@ -29,8 +29,12 @@ def get_query_results(state, city=None):
     DATABASE_NAME = os.getenv('DATABASE_NAME')
 
     # Connect to an existing database
+
+    results = []
+
     try:
-        with psycopg.connect(f"postgresql://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATABASE_HOST_NAME}:{DATABASE_PORT}/{DATABASE_NAME}") as conn:
+        with psycopg.connect(f"postgresql://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATABASE_HOST_NAME}:{DATABASE_PORT}/{DATABASE_NAME}", 
+                             row_factory=dict_row) as conn:
             with conn.cursor() as cur:
 
                 if city:                    
@@ -40,8 +44,19 @@ def get_query_results(state, city=None):
                     print(state)
 
                     # Query the database for active locations from the same state ("Subnational" in the table)
-                    postgreSQL_select_Query = '''
-                    SELECT * from "Locals" 
+                    postgreSQL_select_Query =  '''
+                    SELECT
+                        "Event Name" AS name,
+                        "Country" AS country,
+                        "Subnational" AS state,
+                        "Metro Area" AS metro_area,
+                        "Venue Name" AS venue,
+                        "Address" AS address,
+                        "Frequency" AS frequency,
+                        "When" AS day,
+                        "Type" AS event_type,
+                        "Status" AS status
+                    FROM "Locals"
                     WHERE "Country" = %s 
                     AND "Subnational" = %s
                     AND "Metro Area" = %s
@@ -53,7 +68,18 @@ def get_query_results(state, city=None):
                 else:
                     # Query the database for active locations from the same state and city ("Metro Area")
                     postgreSQL_select_Query = '''
-                    SELECT * from "Locals" 
+                    SELECT
+                        "Event Name" AS name,
+                        "Country" AS country,
+                        "Subnational" AS state,
+                        "Metro Area" AS metro_area,
+                        "Venue Name" AS venue,
+                        "Address" AS address,
+                        "Frequency" AS frequency,
+                        "When" AS day,
+                        "Type" AS event_type,
+                        "Status" AS status
+                    FROM "Locals"
                     WHERE "Country" = %s 
                     AND "Subnational" = %s
                     AND "Status" = %s
@@ -64,10 +90,10 @@ def get_query_results(state, city=None):
     except (Exception, psycopg.Error) as error:
         print ("Error fetching data from PostgreSQL table", error)
 
-    # leaving contexts doesn't close the connection
-    conn.close()
-
-    return jsonify(200, results)
+    return jsonify({
+    "results": results,
+    "count": len(results)
+    }), 200
 
 # Function for normalizing user input for cities to adjust for database quirks, like case-sensitivity.
 def normalize_city_name(state, city):

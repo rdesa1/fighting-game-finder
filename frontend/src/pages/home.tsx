@@ -4,10 +4,22 @@ import React, { useState, useEffect, Component } from 'react'
 import axios from "axios";
 import Searchbar from '../components/searchbar.tsx';
 
+interface Local {
+     name: string;
+     country: string;
+     state: string;
+     metro_area: string;
+     venue: string;
+     address: string;
+     frequency: string;
+     day: string;
+     event_type: string;
+     status: string;
+}
+
 export default function Home() {
 
-     //const [results, setResults] = useState<any[]>([]);
-     const [results, setResults] = useState<(string | null)[][]>([]);
+     const [results, setResults] = useState<Local[]>([]);
 
      // parent event handler to retrieve the search term
      const handleSubmit = async (searchTerm: string) => { // notice searchTerm is passed as arg
@@ -19,7 +31,7 @@ export default function Home() {
                );
 
                console.log(res.data);
-               setResults(res.data[1]); // useState is used to update the search term variable
+               setResults(res.data.results); // useState is used to update the search term variable
           }
           catch (err) {
                console.error(err);
@@ -38,11 +50,19 @@ export default function Home() {
                <ul>
                     {results.map((local, index) => (
                          <li key={index}>
-                              <h3>{local[0]}</h3>
-                              <p>{local[3]}, {local[2]}</p>
-                              <p>{local[4]}</p>
-                              <p>{local[5]}</p>
-                              <p>{local[6]} on {local[7]}</p>
+                              <h3>{local.name}</h3>
+
+                              <p>
+                                   {local.venue} — {local.metro_area}, {local.state}
+                              </p>
+
+                              <p>{local.address}</p>
+
+                              <p>
+                                   {local.frequency} on {local.day}
+                              </p>
+
+                              <p>{local.event_type}</p>
                          </li>
                     ))}
                </ul>
