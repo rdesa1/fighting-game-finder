@@ -6,86 +6,46 @@ import Searchbar from '../components/searchbar.tsx';
 
 export default function Home() {
 
-     //const [searchTerm, setSearchTerm] = useState("");
-     let searchTerm: string;
+     //const [results, setResults] = useState<any[]>([]);
+     const [results, setResults] = useState<(string | null)[][]>([]);
 
+     // parent event handler to retrieve the search term
+     const handleSubmit = async (searchTerm: string) => { // notice searchTerm is passed as arg
 
-     const handleSubmit = (event) => {
-          event.preventDefault();
-          console.log(event.target[0].value)
+          try {
+               const res = await axios.get(
+                    `http://127.0.0.1:5000/search/${searchTerm}`,
+                    { timeout: 5000 }
+               );
 
-          searchTerm = event.target[0].value;
-
-          const fetchAPI = async () => {
-               const res = await axios.get(`http://127.0.0.1:5000/search/${searchTerm}`, {
-                              timeout: 5000, // timeouts after 5 second wait
-               });
                console.log(res.data);
+               setResults(res.data[1]); // useState is used to update the search term variable
           }
-
-          fetchAPI();
-
-
-     }
-
-
-     //const handleSubmit = (e) => {
-
-     //     // Prevent the browser from reloading the page
-     //     e.preventDefault();
-
-     //     searchTerm = e.target.value;
-
-     //     // fetch data from backend
-     //     const fetchAPI = async () => {
-     //          const res = await axios.get(`http://127.0.0.1:5000/search/${searchTerm}`, {
-     //               timeout: 5000, // timeouts after 5 second wait
-     //          });
-     //          console.log(res.data);
-     //     }
-     //     fetchAPI();
-     //}
-
-     //const handleSubmit = (e) => {
-
-     //     // Prevent the browser from reloading the page
-     //     e.preventDefault();
-
-     //     // Read the form data
-     //     //const form = e.target;
-     //     //const formData = new FormData(form);
-
-     //     searchTerm = e.target.value;
-
-     //     // fetch data from backend
-     //     const fetchAPI = async () => {
-     //          const res = await axios.get(`http://127.0.0.1:5000/search/${searchTerm}`, {
-     //               timeout: 5000, // timeouts after 5 second wait
-     //          });
-     //          console.log(res.data);
-     //     }
-     //     fetchAPI();
-     //}
-
-
-     // fetch data from backend
-     //const fetchAPI = async () => {
-     //     const res = await axios.get(`http://127.0.0.1:5000/search/${searchTerm}`, {
-     //          timeout: 5000, // timeouts after 5 second wait
-     //     });
-     //     console.log(res.data);
-     //}
-
-     //useEffect(() => {
-     //     fetchAPI()
-     //}, [])
-
+          catch (err) {
+               console.error(err);
+          }
+     };
 
      return (
-          <Searchbar
-               name="location"
-               placeholder="Enter your state!"
-               onSubmit={handleSubmit}
-          />
-     )
+
+          <>
+               <Searchbar
+                    name="location"
+                    placeholder="Enter your state!"
+                    onSubmit={handleSubmit}
+               />
+
+               <ul>
+                    {results.map((local, index) => (
+                         <li key={index}>
+                              <h3>{local[0]}</h3>
+                              <p>{local[3]}, {local[2]}</p>
+                              <p>{local[4]}</p>
+                              <p>{local[5]}</p>
+                              <p>{local[6]} on {local[7]}</p>
+                         </li>
+                    ))}
+               </ul>
+          </>
+     );
 }

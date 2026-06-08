@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify
 import os
 from dotenv import load_dotenv # for manipulating environment variables
 import psycopg # postgreSQL module
+from psycopg.rows import dict_row
 import string # for normalizing the input for case sensitivity
 import re # for using regex to normalize certain user inputs
 
