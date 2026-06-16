@@ -3,23 +3,12 @@
 import React, { useState, useEffect, Component } from 'react'
 import axios from "axios";
 import Searchbar from '../components/searchbar.tsx';
-
-interface Local {
-     name: string;
-     country: string;
-     state: string;
-     metro_area: string;
-     venue: string;
-     address: string;
-     frequency: string;
-     day: string;
-     event_type: string;
-     status: string;
-}
+import Local from "../components/local.tsx";
+import type {Local as LocalType } from "../types/local.ts"
 
 export default function Home() {
 
-     const [results, setResults] = useState<Local[]>([]);
+     const [results, setResults] = useState<LocalType[]>([]);
 
      // parent event handler to retrieve the search term
      const handleSubmit = async (searchTerm: string) => { // notice searchTerm is passed as arg
@@ -49,21 +38,10 @@ export default function Home() {
 
                <ul>
                     {results.map((local, index) => (
-                         <li key={index}>
-                              <h3>{local.name}</h3>
-
-                              <p>
-                                   {local.venue} — {local.metro_area}, {local.state}
-                              </p>
-
-                              <p>{local.address}</p>
-
-                              <p>
-                                   {local.frequency} on {local.day}
-                              </p>
-
-                              <p>{local.event_type}</p>
-                         </li>
+                         <Local
+                              key={index}
+                              local={local}
+                         />
                     ))}
                </ul>
           </>
