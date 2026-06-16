@@ -15,7 +15,7 @@ export default function Local({ local }: LocalProps) {
                     </p>
 
                     <p>
-                         <b>Address:</b> {local.metro_area}, {local.state}, {local.address}
+                         <b>Address:</b> {local.metro_area}, {local.subnational}, {local.address}
                     </p>
 
                     <p>
