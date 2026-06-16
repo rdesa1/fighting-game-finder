@@ -21,17 +21,17 @@ export default function Searchbar({ onSubmit }
           onSubmit(subnational, metroArea);
      };
 
-
+     // We render 2 different search bars, one for the State (mandatory) and one for city (optional)
      return (
 
           <form onSubmit={handleSubmit}>
                <input
-                    placeholder={"State"}
+                    placeholder={"Enter your State"}
                     value={subnational}
                     onChange={(e) => setSubnational(e.target.value)}
                />
                <input
-                    placeholder="City (optional)"
+                    placeholder="Enter your City (optional)"
                     value={metroArea}
                     onChange={(e) => setMetroArea(e.target.value)}
 

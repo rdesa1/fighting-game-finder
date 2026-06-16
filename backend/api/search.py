@@ -18,6 +18,9 @@ def get_query_results(state, city=None):
     # The database is case sensitive. Ensure the first letter of every word is capitalized.
     state = string.capwords(state)
 
+    # Removes trailing spaces after input
+    state = state.strip()
+
     # load environment variables from a .env file into the application's environment
     load_dotenv()
 
@@ -37,7 +40,8 @@ def get_query_results(state, city=None):
                              row_factory=dict_row) as conn:
             with conn.cursor() as cur:
 
-                if city:                    
+                if city:
+                    city = city.strip()
                     city = normalize_city_name(state, city)
 
                     print(city)
