@@ -107,7 +107,7 @@ def normalize_city_name(state, city):
 
     # Check if the provided city is located within Southern California. If yes, normalize it to "SoCal".
     if (state == "California"):
-        if (("Los Angelas" in city) or 
+        if (("Los Angeles" in city) or 
             ("La" in city) or 
             ("LA" in city) or
             ("San Diego" in city) or 
@@ -123,6 +123,14 @@ def normalize_city_name(state, city):
             ("Calexico" in city) or 
             ("Brawley" in city)):
             return ("SoCal")
+
+    # Check if the user is already writing the "SoCal" short-hand. If so, we need to preserve the camel case.
+    if state == "California":
+        if city.lower() in {"socal", "so cal", "southern california"}:
+            return "SoCal"
+
+    
+
 
     # Check if the provided city is located within the Virgina-DMV Metropolitan Area. If yes, normalize it to "DMV".
     elif (state == "Virginia"):
