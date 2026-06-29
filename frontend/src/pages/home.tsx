@@ -40,7 +40,7 @@ export default function Home() {
                     onSubmit={handleSubmit}
                />
 
-               <ul>
+               <ul className="local-list">
                     {results.map((local, index) => (
                          <Local
                               key={index}

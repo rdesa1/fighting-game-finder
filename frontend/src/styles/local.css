@@ -1,0 +1,23 @@
+.local-list {
+     list - style: none;
+     padding: 0;
+     margin: 2rem auto;
+     max-width: 800px;
+}
+
+.local-card {
+     border: 1px solid #ddd;
+     border-radius: 12px;
+     padding: 1.5rem;
+     margin-bottom: 1rem;
+     background: white;
+}
+
+.local-section {
+     margin-bottom: 0.75rem;
+}
+
+.local-section strong {
+     display: inline-block;
+     min-width: 90px;
+}
