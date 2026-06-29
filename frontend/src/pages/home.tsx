@@ -1,6 +1,6 @@
 // https://react.dev/reference/react-dom/components/input#reading-the-input-values-when-submitting-a-form
 
-import React, { useState} from 'react'
+import React, { useState } from 'react'
 import axios from "axios";
 import Searchbar from '../components/searchbar.tsx';
 import Local from "../components/local.tsx";
