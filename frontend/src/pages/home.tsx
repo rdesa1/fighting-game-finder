@@ -9,6 +9,7 @@ import type { Local as LocalType } from "../types/local.ts"
 export default function Home() {
 
      const [results, setResults] = useState<LocalType[]>([]);
+     const [hasSearched, setHasSearched] = useState(false);
 
      // parent event handler to retrieve the search term
      const handleSubmit = async (subnational: string,
@@ -27,6 +28,7 @@ export default function Home() {
 
                console.log(res.data);
                setResults(res.data.results); // useState is used to update the search term variable
+               setHasSearched(true);
           }
           catch (err) {
                console.error(err);
@@ -40,9 +42,12 @@ export default function Home() {
                     onSubmit={handleSubmit}
                />
 
-               <p className="result-count">
-                    {results.length} results found
-               </p>
+               {hasSearched && (
+                    <p className="result-count">
+                         {results.length} results found
+                    </p>
+               )}
+               
 
                <ul className="local-list">
                     {results.map((local, index) => (
