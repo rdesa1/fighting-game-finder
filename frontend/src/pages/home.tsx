@@ -47,6 +47,12 @@ export default function Home() {
                          {results.length} results found
                     </p>
                )}
+
+               {hasSearched && results.length === 0 && (
+                    <p className="no-results">
+                    No active locals found. Try another state or metro area.
+                    </p>
+               ) }
                
 
                <ul className="local-list">
