@@ -10,6 +10,7 @@ export default function Home() {
 
      const [results, setResults] = useState<LocalType[]>([]);
      const [hasSearched, setHasSearched] = useState(false);
+     const [loading, setLoading] = useState(false);
 
      // parent event handler to retrieve the search term
      const handleSubmit = async (subnational: string,
@@ -22,6 +23,8 @@ export default function Home() {
                url += `/${encodeURIComponent(metroArea)}`;
           }
           try {
+               setLoading(true);
+
                const res = await axios.get(url, {
                     timeout: 5000,
                });
@@ -32,6 +35,8 @@ export default function Home() {
           }
           catch (err) {
                console.error(err);
+          } finally {
+               setLoading(false);
           }
      };
 
@@ -42,18 +47,24 @@ export default function Home() {
                     onSubmit={handleSubmit}
                />
 
-               {hasSearched && (
+               {loading && (
+                    <p className="loading-message">
+                         Searching...
+                    </p>
+               )}
+
+               {hasSearched && !loading && results.length > 0 && (
                     <p className="result-count">
                          {results.length} results found
                     </p>
                )}
 
-               {hasSearched && results.length === 0 && (
+               {hasSearched && !loading && results.length === 0 && (
                     <p className="no-results">
-                    No active locals found. Try another state or metro area.
+                         No active locals found. Try another state or metro area.
                     </p>
-               ) }
-               
+               )}
+
 
                <ul className="local-list">
                     {results.map((local, index) => (
