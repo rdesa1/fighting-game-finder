@@ -40,6 +40,10 @@ export default function Home() {
                     onSubmit={handleSubmit}
                />
 
+               <p className="result-count">
+                    {results.length} results found
+               </p>
+
                <ul className="local-list">
                     {results.map((local, index) => (
                          <Local
