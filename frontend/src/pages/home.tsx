@@ -11,6 +11,7 @@ export default function Home() {
      const [results, setResults] = useState<LocalType[]>([]);
      const [hasSearched, setHasSearched] = useState(false);
      const [loading, setLoading] = useState(false);
+     const [error, setError] = useState("");
 
      // parent event handler to retrieve the search term
      const handleSubmit = async (subnational: string,
@@ -35,6 +36,7 @@ export default function Home() {
           }
           catch (err) {
                console.error(err);
+               setError("Something went wrong while searching. Please try again.");
           } finally {
                setLoading(false);
           }
@@ -53,6 +55,12 @@ export default function Home() {
                     </p>
                )}
 
+               {error && !loading && (
+                    <p className="error-message">
+                         {error}
+                    </p>
+               ) }
+
                {hasSearched && !loading && results.length > 0 && (
                     <p className="result-count">
                          {results.length} results found
@@ -64,7 +72,6 @@ export default function Home() {
                          No active locals found. Try another state or metro area.
                     </p>
                )}
-
 
                <ul className="local-list">
                     {results.map((local, index) => (
