@@ -25,6 +25,8 @@ export default function Home() {
           }
           try {
                setLoading(true);
+               setError("");
+               setResults([]);
 
                const res = await axios.get(url, {
                     timeout: 5000,
@@ -67,20 +69,21 @@ export default function Home() {
                     </p>
                )}
 
-               {hasSearched && !loading && results.length === 0 && (
+               {hasSearched && !loading && !error && results.length === 0 && (
                     <p className="no-results">
                          No active locals found. Try another state or metro area.
                     </p>
                )}
 
-               <ul className="local-list">
+               {results.length > 0 && (<ul className="local-list">
                     {results.map((local, index) => (
                          <Local
                               key={index}
                               local={local}
                          />
                     ))}
-               </ul>
+               </ul>) }
+               
           </>
      );
 }
