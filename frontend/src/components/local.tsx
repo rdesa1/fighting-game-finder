@@ -1,4 +1,5 @@
 import type { Local as LocalType } from "../types/local.ts";
+import "../styles/local.css";
 
 interface LocalProps {
      local: LocalType;
@@ -6,24 +7,31 @@ interface LocalProps {
 
 export default function Local({ local }: LocalProps) {
      return (
-          <div id= "local">
-               <li>
-                    <h3>{local.name}</h3>
+          <li className="local-card">
+               <h3>{local.name}</h3>
 
-                    <p>
-                         <b>Venue:</b> {local.venue}
-                    </p>
+               <div className="local-section">
+                    <strong>Venue: </strong>
+                    <span>{local.venue}</span>
 
-                    <p>
-                         <b>Address:</b> {local.metro_area}, {local.subnational}, {local.address}
-                    </p>
+               </div>
 
-                    <p>
-                         <b>Frequency:</b> {local.frequency} on {local.day}
-                    </p>
+               <div className="local-section">
+                    <strong>Address: </strong>
+                    <span>{local.metro_area}, {local.subnational}, {local.address}</span>
+               </div>
 
-                    <p> <b>Type:</b> {local.event_type}</p>
-               </li>
-          </div>
+               <div className="local-section">
+                    <strong>Schedule: </strong>
+                    <span>{local.frequency} on {local.day}</span>
+
+               </div>
+
+               <div className="local-section">
+                    <strong>Type: </strong>
+                    <span>{local.event_type}</span>
+               </div>
+
+          </li>
      );
 }

@@ -6,7 +6,7 @@ import Searchbar from './components/searchbar.tsx'
 import Search_results from './pages/search_results.tsx'
 import { BrowserRouter, Routes, Route, Link, useParams } from 'react-router'
 import Home from './pages/home.tsx'
-import Test from './pages/test.tsx'
+import Test from './sandbox/test.tsx'
 
 function App() {
      //const [count, setCount] = useState(0);

@@ -9,6 +9,9 @@ import type { Local as LocalType } from "../types/local.ts"
 export default function Home() {
 
      const [results, setResults] = useState<LocalType[]>([]);
+     const [hasSearched, setHasSearched] = useState(false);
+     const [loading, setLoading] = useState(false);
+     const [error, setError] = useState("");
 
      // parent event handler to retrieve the search term
      const handleSubmit = async (subnational: string,
@@ -21,15 +24,23 @@ export default function Home() {
                url += `/${encodeURIComponent(metroArea)}`;
           }
           try {
+               setLoading(true);
+               setError("");
+               setResults([]);
+
                const res = await axios.get(url, {
                     timeout: 5000,
                });
 
                console.log(res.data);
                setResults(res.data.results); // useState is used to update the search term variable
+               setHasSearched(true);
           }
           catch (err) {
                console.error(err);
+               setError("Something went wrong while searching. Please try again.");
+          } finally {
+               setLoading(false);
           }
      };
 
@@ -40,14 +51,39 @@ export default function Home() {
                     onSubmit={handleSubmit}
                />
 
-               <ul>
+               {loading && (
+                    <p className="loading-message">
+                         Searching...
+                    </p>
+               )}
+
+               {error && !loading && (
+                    <p className="error-message">
+                         {error}
+                    </p>
+               ) }
+
+               {hasSearched && !loading && results.length > 0 && (
+                    <p className="result-count">
+                         {results.length} results found
+                    </p>
+               )}
+
+               {hasSearched && !loading && !error && results.length === 0 && (
+                    <p className="no-results">
+                         No active locals found. Try another state or metro area.
+                    </p>
+               )}
+
+               {results.length > 0 && (<ul className="local-list">
                     {results.map((local, index) => (
                          <Local
                               key={index}
                               local={local}
                          />
                     ))}
-               </ul>
+               </ul>) }
+               
           </>
      );
 }
