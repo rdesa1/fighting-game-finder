@@ -18,6 +18,11 @@ export default function Searchbar({ onSubmit }
      // child event handler to update the search term prop
      const handleSubmit = (e: React.FormEvent) => {
           e.preventDefault();
+
+          if (!subnational.trim()) { // ensure the subnational input isn't just empty string.
+               return;
+          }
+
           onSubmit(subnational, metroArea);
      };
 
@@ -29,6 +34,7 @@ export default function Searchbar({ onSubmit }
                     placeholder={"Enter your State"}
                     value={subnational}
                     onChange={(e) => setSubnational(e.target.value)}
+                    required
                />
                <input
                     placeholder="Enter your City (optional)"
