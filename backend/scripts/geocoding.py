@@ -1,9 +1,11 @@
 # This script is for obtaining and caching longitude and latidude data points 
 # within the database, using the nominatum geocoding API.
+# Whenever new locals are added to the database, rerun this script to geocode them.
 
 import os
 import psycopg
 import requests
+import time # Nominatum policy only allows for 1 request per second
 
 from dotenv import load_dotenv
 from psycopg.rows import dict_row
@@ -45,60 +47,62 @@ if not locals_to_geocode:
     print("No rows need geocoding.")
     exit()
 
-local = locals_to_geocode[0]
+for local in locals_to_geocode[:10]:
+    search_query = (
+        f'{local["address"]}, '
+        #f'{local["subnational"]}, USA'
+    )
 
-search_query = (
-    f'{local["address"]}, '
-    f'{local["subnational"]}, USA'
-)
+    params = {
+        "q": search_query,
+        "format": "jsonv2",
+        "limit": 1
+    }
 
-params = {
-    "q": search_query,
-    "format": "jsonv2",
-    "limit": 1
-}
+    headers = {
+        "User-Agent": "FightingGameFinder/1.0"
+    }
 
-headers = {
-    "User-Agent": "FightingGameFinder/1.0"
-}
+    response = requests.get(
+        "https://nominatim.openstreetmap.org/search",
+        params=params,
+        headers=headers,
+        timeout=10
+    )
 
-response = requests.get(
-    "https://nominatim.openstreetmap.org/search",
-    params=params,
-    headers=headers,
-    timeout=10
-)
+    response.raise_for_status()
 
-response.raise_for_status()
+    data = response.json()
 
-data = response.json()
+    print(search_query)
 
-print(search_query)
-print(data)
-
-if data:
+    if not data:
+        #print(f'No geocoding result found for row {local["id"]}')
+        print(f'FAILED row {local["id"]}: {search_query}')
+        time.sleep(1.1)
+        continue
+    
     latitude = float(data[0]["lat"])
     longitude = float(data[0]["lon"])
 
-    print("Latitude:", latitude)
-    print("Longitude:", longitude)
-else:
-    print("No geocoding result found.")
-    exit()
 
-with psycopg.connect(DATABASE_URL) as conn:
-    with conn.cursor() as cur:
-        cur.execute(
-            '''
-            UPDATE "Locals"
-            SET latitude = %s,
-                longitude = %s
-            WHERE id = %s;
-            ''',
-            (latitude, longitude, local["id"])
+    with psycopg.connect(DATABASE_URL) as conn:
+        with conn.cursor() as cur:
+            cur.execute(
+                '''
+                UPDATE "Locals"
+                SET latitude = %s,
+                    longitude = %s
+                WHERE id = %s;
+                ''',
+                (latitude, longitude, local["id"])
 
-    )
+        )
 
-    conn.commit()
+        conn.commit()
 
-print(f'Updated row {local["id"]}')
+    print(f'Updated row {local["id"]}: {latitude}, {longitude}')
+
+    time.sleep(1.1)
+
+print("Geocoding complete.")
