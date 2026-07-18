@@ -76,9 +76,9 @@ export default function Home() {
                )}
 
                {results.length > 0 && (<ul className="local-list">
-                    {results.map((local, index) => (
+                    {results.map((local) => (
                          <Local
-                              key={index}
+                              key={local.id}
                               local={local}
                          />
                     ))}
