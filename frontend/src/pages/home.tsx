@@ -1,10 +1,11 @@
 // https://react.dev/reference/react-dom/components/input#reading-the-input-values-when-submitting-a-form
 
-import React, { useState } from 'react'
 import axios from "axios";
+import React, { useState } from 'react'
 import Searchbar from '../components/searchbar.tsx';
 import Local from "../components/local.tsx";
 import type { Local as LocalType } from "../types/local.ts"
+import LocalMap from "../components/LocalMap";
 
 export default function Home() {
 
@@ -61,7 +62,7 @@ export default function Home() {
                     <p className="error-message">
                          {error}
                     </p>
-               ) }
+               )}
 
                {hasSearched && !loading && results.length > 0 && (
                     <p className="result-count">
@@ -75,15 +76,21 @@ export default function Home() {
                     </p>
                )}
 
-               {results.length > 0 && (<ul className="local-list">
-                    {results.map((local) => (
-                         <Local
-                              key={local.id}
-                              local={local}
-                         />
-                    ))}
-               </ul>) }
-               
+               {results.length > 0 && (
+                    <>
+                         <LocalMap locals={results} />
+
+                         <ul className="local-list">
+                              {results.map((local) => (
+                                   <Local
+                                        key={local.id}
+                                        local={local}
+                                   />
+                              ))}
+                         </ul>
+                    </>
+               )}
+
           </>
      );
 }
