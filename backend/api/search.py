@@ -44,12 +44,15 @@ def get_query_results(state, city=None):
                     city = city.strip()
                     city = normalize_city_name(state, city)
 
-                    print(city)
-                    print(state)
+                    #print(city)
+                    #print(state)
 
                     # Query the database for active locations from the same state ("Subnational" in the table)
                     postgreSQL_select_Query =  '''
                     SELECT
+                        "id" AS ID,
+                        "latitude" as latitude,
+                        "longitude" as longitude,
                         "Event Name" AS name,
                         "Country" AS country,
                         "Subnational" AS state,
@@ -73,6 +76,9 @@ def get_query_results(state, city=None):
                     # Query the database for active locations from the same state and city ("Metro Area")
                     postgreSQL_select_Query = '''
                     SELECT
+                        "id" AS ID,
+                        "latitude" as latitude,
+                        "longitude" as longitude,
                         "Event Name" AS name,
                         "Country" AS country,
                         "Subnational" AS state,
