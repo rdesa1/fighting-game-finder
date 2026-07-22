@@ -1,39 +1,47 @@
 .local-list {
      list-style: none;
      padding: 0;
-     margin: 2rem auto;
-     max-width: 800px;
-}
-
-.local-card {
-     border: 1px solid #ddd;
-     border-radius: 12px;
-     padding: 1.5rem;
-     margin-bottom: 1rem;
-     background: white;
-     text-align: left;
-     box-sizing: border-box;
+     margin: 0;
      width: 100%;
 }
 
-.local-card h3 {
-          text-align: center;
-          margin-top: 0;
-          margin-bottom: 1rem;
+.local-card {
+     width: 100%;
+     box-sizing: border-box;
+     border: 1px solid #ddd;
+     border-radius: 12px;
+     padding: 1rem 1.75rem 1.75rem;
+     margin-bottom: 1.2rem;
+     background: white;
+     text-align: left;
 }
+
+     .local-card h3 {
+          text-align: center;
+          font-size: 1.25rem;
+          line-height: 1.4;
+          margin-top: 0;
+          margin-bottom: 1.5rem;
+     }
 
 .local-section {
-     display: flex;
-     margin-bottom: 0.75rem;
-     gap: 1rem;
+     display: grid;
+     grid-template-columns: 105px minmax(0, 1fr);
+     column-gap: 1.25rem;
+     margin-bottom: 1rem;
+     line-height: 1.5;
 }
 
-.local-section strong {
-     width: 90px;
-     flex-shrink: 0;
-}
+     .local-section:last-child {
+          margin-bottom: 0;
+     }
 
-.local-section span {
-     padding-left: 2rem;
-     min-width: 0;
-}
+     .local-section strong {
+          width: auto;
+     }
+
+     .local-section span {
+          padding-left: 0;
+          min-width: 0;
+          overflow-wrap: anywhere;
+     }
