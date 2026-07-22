@@ -3,6 +3,7 @@
 import axios from "axios";
 import React, { useState } from 'react'
 import Searchbar from '../components/searchbar.tsx';
+import "../styles/home.css";
 import Local from "../components/local.tsx";
 import type { Local as LocalType } from "../types/local.ts"
 import LocalMap from "../components/LocalMap";
@@ -77,18 +78,23 @@ export default function Home() {
                )}
 
                {results.length > 0 && (
-                    <>
-                         <LocalMap locals={results} />
+                    <div className="search-results">
+                         <div className="results-panel">
+                              <ul className="local-list">
+                                   {results.map((local) => (
+                                        <Local
+                                             key={local.id}
+                                             local={local}
+                                        />
 
-                         <ul className="local-list">
-                              {results.map((local) => (
-                                   <Local
-                                        key={local.id}
-                                        local={local}
-                                   />
-                              ))}
-                         </ul>
-                    </>
+                                   ))}
+                              </ul>
+                         </div>
+
+                         <div className="map-panel">
+                              <LocalMap locals={results} />
+                         </div>
+                    </div>
                )}
 
           </>

@@ -59,6 +59,7 @@ function FitBounds({ locals }: LocalMapProps) {
      return null;
 }
 
+// renders a leaflet map of the area that's been queried
 export default function LocalMap({ locals }: LocalMapProps) {
      const localsWithCoordinates = locals.filter(
           (local) =>
