@@ -27,6 +27,21 @@ function FitBounds({ locals }: LocalMapProps) {
                return;
           }
 
+          // resolve the case in which a query returns just 1 local, so the map zooms in too closely'
+          if (locals.length === 1) {
+               const local = locals[0];
+
+               map.setView(
+                    [
+                         local.latitude as number,
+                         local.longitude as number
+                    ],
+                    13
+               );
+
+               return;
+          }
+
           // compute the smallest rectangle containing all the marker coordinates
           const bounds = L.latLngBounds(
                locals.map((local) => [
