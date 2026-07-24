@@ -16,10 +16,19 @@ import {
 
 interface LocalMapProps {
      locals: LocalType[];
+     selectedLocal: LocalType | null;
+}
+
+interface SelectedLocalProps {
+     selectedLocal: LocalType | null;
+}
+
+interface FitBoundsProps {
+     locals: LocalType[];
 }
 
 // helper function to zoom into the state that has been searched
-function FitBounds({ locals }: LocalMapProps) {
+function FitBounds({ locals }: FitBoundsProps) {
      const map = useMap();
 
      useEffect(() => {
@@ -60,7 +69,7 @@ function FitBounds({ locals }: LocalMapProps) {
 }
 
 // renders a leaflet map of the area that's been queried
-export default function LocalMap({ locals }: LocalMapProps) {
+export default function LocalMap({ locals, selectedLocal }: LocalMapProps) {
      const localsWithCoordinates = locals.filter(
           (local) =>
                local.latitude !== null &&
@@ -81,7 +90,9 @@ export default function LocalMap({ locals }: LocalMapProps) {
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" 
                />
 
-               <FitBounds locals={localsWithCoordinates } />
+               <FitBounds locals={localsWithCoordinates} />
+
+               <MoveToSelectedLocal selectedLocal={selectedLocal} />
                
                {localsWithCoordinates.map((local) => ( // render one marker per latitude, longitude coordinate pair
                     <Marker
@@ -106,4 +117,31 @@ export default function LocalMap({ locals }: LocalMapProps) {
           </MapContainer>
 
      );
+}
+
+function MoveToSelectedLocal({ selectedLocal }: SelectedLocalProps) {
+     const map = useMap();
+
+     useEffect(() => {
+          if (
+               selectedLocal?.latitude === null ||
+               selectedLocal?.longitude === null ||
+               selectedLocal === null
+          ) {
+               return;
+          }
+
+          map.flyTo(
+               [
+                    selectedLocal.latitude as number,
+                    selectedLocal.longitude as number
+               ],
+               14,
+               {
+                    duration: 1
+               }
+          );
+     }, [selectedLocal, map]);
+
+     return null;
 }
