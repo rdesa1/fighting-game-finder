@@ -14,6 +14,7 @@ export default function Home() {
      const [hasSearched, setHasSearched] = useState(false);
      const [loading, setLoading] = useState(false);
      const [error, setError] = useState("");
+     const [selectedLocal, setSelectedLocal] = useState<LocalType | null>(null);
 
      // parent event handler to retrieve the search term
      const handleSubmit = async (subnational: string,
@@ -85,6 +86,7 @@ export default function Home() {
                                         <Local
                                              key={local.id}
                                              local={local}
+                                             onClick={() => setSelectedLocal(local)}
                                         />
 
                                    ))}
@@ -92,7 +94,8 @@ export default function Home() {
                          </div>
 
                          <div className="map-panel">
-                              <LocalMap locals={results} />
+                              <LocalMap locals={results}
+                                   selectedLocal={selectedLocal} />
                          </div>
                     </div>
                )}

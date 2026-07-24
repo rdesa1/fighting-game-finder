@@ -3,11 +3,22 @@ import "../styles/local.css";
 
 interface LocalProps {
      local: LocalType;
+     onClick: () => void;
 }
 
-export default function Local({ local }: LocalProps) {
+export default function Local({ local, onClick }: LocalProps) {
      return (
-          <li className="local-card">
+          <li className="local-card"
+               onClick={onClick}
+               onKeyDown={(event) => {
+                    if (event.key === "Enter" || event.key === " ") {
+                         onClick();
+                    }
+               }
+               }
+               role="button"
+               tabIndex={0}
+          >
                <h3>{local.name}</h3>
 
                <div className="local-section">
