@@ -14,6 +14,21 @@ import {
      TileLayer
 } from "react-leaflet";
 
+const defaultIcon = L.icon({
+     iconUrl: "/img/marker-icon-blue.png",
+     shadowUrl: "/img/marker-shadow.png",
+     iconSize: [25, 41],
+     iconAnchor: [12, 41],
+     popupAnchor: [1, -34]
+});
+
+const selectedIcon = L.icon({
+     iconUrl: "/img/marker-icon-red.png",
+     iconSize: [32, 52],
+     iconAnchor: [16, 52],
+     popupAnchor: [1, -42]
+});
+
 interface LocalMapProps {
      locals: LocalType[];
      selectedLocal: LocalType | null;
@@ -87,13 +102,13 @@ export default function LocalMap({ locals, selectedLocal }: LocalMapProps) {
 
                <TileLayer // populate the empty map area with OpenStreetMap tiles
                     attribution="&copy; OpenStreetMap contributors"
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" 
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                />
 
                <FitBounds locals={localsWithCoordinates} />
 
                <MoveToSelectedLocal selectedLocal={selectedLocal} />
-               
+
                {localsWithCoordinates.map((local) => ( // render one marker per latitude, longitude coordinate pair
                     <Marker
                          key={local.id}
@@ -101,6 +116,11 @@ export default function LocalMap({ locals, selectedLocal }: LocalMapProps) {
                               local.latitude as number,
                               local.longitude as number
                          ]}
+                         icon={
+                              selectedLocal?.id === local.id
+                                   ? selectedIcon
+                                   : defaultIcon
+                         }
                     >
 
                          <Popup>
@@ -119,6 +139,7 @@ export default function LocalMap({ locals, selectedLocal }: LocalMapProps) {
      );
 }
 
+// makes the map zoom to whatever local is clicked on
 function MoveToSelectedLocal({ selectedLocal }: SelectedLocalProps) {
      const map = useMap();
 
@@ -136,9 +157,9 @@ function MoveToSelectedLocal({ selectedLocal }: SelectedLocalProps) {
                     selectedLocal.latitude as number,
                     selectedLocal.longitude as number
                ],
-               14,
+               11,
                {
-                    duration: 1
+                    duration: 1.25
                }
           );
      }, [selectedLocal, map]);
