@@ -86,8 +86,15 @@ export default function Home() {
                                         <Local
                                              key={local.id}
                                              local={local}
-                                             selected={selectedLocal?.id === local.id }
-                                             onClick={() => setSelectedLocal(local)}
+                                             selected={selectedLocal?.id === local.id}
+                                             onClick={() => {
+                                                  setSelectedLocal((currentLocal) =>
+                                                       currentLocal?.id === local.id
+                                                            ? null
+                                                            : local
+                                                  );
+                                             }
+                                             }
                                         />
 
                                    ))}

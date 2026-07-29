@@ -40,13 +40,21 @@ interface SelectedLocalProps {
 
 interface FitBoundsProps {
      locals: LocalType[];
+     selectedLocal: LocalType | null;
 }
 
 // helper function to zoom into the state that has been searched
-function FitBounds({ locals }: FitBoundsProps) {
+function FitBounds({ locals, selectedLocal }: FitBoundsProps) {
      const map = useMap();
 
      useEffect(() => {
+
+
+          // MoveToSelectedLocal controls the map while a card is selected
+          if (selectedLocal !== null) {
+               return;
+          }
+
           if (locals.length === 0) {
                return;
           }
@@ -83,6 +91,34 @@ function FitBounds({ locals }: FitBoundsProps) {
      return null;
 }
 
+// makes the map zoom to whatever local is clicked on
+function MoveToSelectedLocal({ selectedLocal }: SelectedLocalProps) {
+     const map = useMap();
+
+     useEffect(() => {
+          if (
+               selectedLocal?.latitude === null ||
+               selectedLocal?.longitude === null ||
+               selectedLocal === null
+          ) {
+               return;
+          }
+
+          map.flyTo(
+               [
+                    selectedLocal.latitude as number,
+                    selectedLocal.longitude as number
+               ],
+               11,
+               {
+                    duration: 1.25
+               }
+          );
+     }, [selectedLocal, map]);
+
+     return null;
+}
+
 // renders a leaflet map of the area that's been queried
 export default function LocalMap({ locals, selectedLocal }: LocalMapProps) {
      const localsWithCoordinates = locals.filter(
@@ -105,7 +141,8 @@ export default function LocalMap({ locals, selectedLocal }: LocalMapProps) {
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                />
 
-               <FitBounds locals={localsWithCoordinates} />
+               <FitBounds locals={localsWithCoordinates}
+                    selectedLocal={selectedLocal} />
 
                <MoveToSelectedLocal selectedLocal={selectedLocal} />
 
@@ -144,30 +181,3 @@ export default function LocalMap({ locals, selectedLocal }: LocalMapProps) {
      );
 }
 
-// makes the map zoom to whatever local is clicked on
-function MoveToSelectedLocal({ selectedLocal }: SelectedLocalProps) {
-     const map = useMap();
-
-     useEffect(() => {
-          if (
-               selectedLocal?.latitude === null ||
-               selectedLocal?.longitude === null ||
-               selectedLocal === null
-          ) {
-               return;
-          }
-
-          map.flyTo(
-               [
-                    selectedLocal.latitude as number,
-                    selectedLocal.longitude as number
-               ],
-               11,
-               {
-                    duration: 1.25
-               }
-          );
-     }, [selectedLocal, map]);
-
-     return null;
-}
