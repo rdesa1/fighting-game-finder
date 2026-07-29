@@ -1,6 +1,7 @@
 /* This component renders the map feature as imported from Leaflet. */
 
 import "leaflet/dist/leaflet.css"
+import type { Dispatch, SetStateAction } from "react";
 import type { Local as LocalType } from "../types/local.ts";
 import "../styles/LocalMap.css" // Without an explicit height, the map will not render
 import { useEffect } from "react";
@@ -32,6 +33,9 @@ const selectedIcon = L.icon({
 interface LocalMapProps {
      locals: LocalType[];
      selectedLocal: LocalType | null;
+     setSelectedLocal: React.Dispatch<
+          React.SetStateAction<LocalType | null>
+     >;
 }
 
 interface SelectedLocalProps {
@@ -120,7 +124,7 @@ function MoveToSelectedLocal({ selectedLocal }: SelectedLocalProps) {
 }
 
 // renders a leaflet map of the area that's been queried
-export default function LocalMap({ locals, selectedLocal }: LocalMapProps) {
+export default function LocalMap({ locals, selectedLocal, setSelectedLocal}: LocalMapProps) {
      const localsWithCoordinates = locals.filter(
           (local) =>
                local.latitude !== null &&
@@ -163,6 +167,11 @@ export default function LocalMap({ locals, selectedLocal }: LocalMapProps) {
                                    ? 1000
                                    : 0
                          }
+                         eventHandlers={{
+                              click: () => {
+                                   setSelectedLocal(local);
+                              }
+                         }}
                     >
 
                          <Popup>

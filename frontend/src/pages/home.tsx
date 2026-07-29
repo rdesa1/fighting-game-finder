@@ -103,7 +103,9 @@ export default function Home() {
 
                          <div className="map-panel">
                               <LocalMap locals={results}
-                                   selectedLocal={selectedLocal} />
+                                   selectedLocal={selectedLocal}
+                                   setSelectedLocal={setSelectedLocal}
+                              />
                          </div>
                     </div>
                )}
