@@ -169,7 +169,11 @@ export default function LocalMap({ locals, selectedLocal, setSelectedLocal}: Loc
                          }
                          eventHandlers={{
                               click: () => {
-                                   setSelectedLocal(local);
+                                   setSelectedLocal((currentLocal) =>
+                                        currentLocal?.id === local.id
+                                             ? null
+                                             : local
+                                   );
                               }
                          }}
                     >
