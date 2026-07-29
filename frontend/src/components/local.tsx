@@ -4,11 +4,16 @@ import "../styles/local.css";
 interface LocalProps {
      local: LocalType;
      onClick: () => void;
+     selected: boolean;
 }
 
-export default function Local({ local, onClick }: LocalProps) {
+export default function Local({ local, onClick, selected }: LocalProps) {
      return (
-          <li className="local-card"
+          <li className={
+               selected
+                    ? "local-card selected"
+                    : "local-card"
+          }
                onClick={onClick}
                onKeyDown={(event) => {
                     if (event.key === "Enter" || event.key === " ") {
@@ -44,5 +49,7 @@ export default function Local({ local, onClick }: LocalProps) {
                </div>
 
           </li>
+
+
      );
 }
