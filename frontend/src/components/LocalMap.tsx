@@ -121,6 +121,11 @@ export default function LocalMap({ locals, selectedLocal }: LocalMapProps) {
                                    ? selectedIcon
                                    : defaultIcon
                          }
+                         zIndexOffset={
+                              selectedLocal?.id === local.id
+                                   ? 1000
+                                   : 0
+                         }
                     >
 
                          <Popup>
