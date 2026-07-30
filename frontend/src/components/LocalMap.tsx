@@ -1,6 +1,7 @@
 /* This component renders the map feature as imported from Leaflet. */
 
 import "leaflet/dist/leaflet.css"
+import type { Dispatch, SetStateAction } from "react";
 import type { Local as LocalType } from "../types/local.ts";
 import "../styles/LocalMap.css" // Without an explicit height, the map will not render
 import { useEffect } from "react";
@@ -14,15 +15,50 @@ import {
      TileLayer
 } from "react-leaflet";
 
+const defaultIcon = L.icon({
+     iconUrl: "/img/marker-icon-blue.png",
+     shadowUrl: "/img/marker-shadow.png",
+     iconSize: [25, 41],
+     iconAnchor: [12, 41],
+     popupAnchor: [1, -34]
+});
+
+const selectedIcon = L.icon({
+     iconUrl: "/img/marker-icon-red.png",
+     iconSize: [32, 52],
+     iconAnchor: [16, 52],
+     popupAnchor: [1, -42]
+});
+
 interface LocalMapProps {
      locals: LocalType[];
+     selectedLocal: LocalType | null;
+     setSelectedLocal: React.Dispatch<
+          React.SetStateAction<LocalType | null>
+     >;
+}
+
+interface SelectedLocalProps {
+     selectedLocal: LocalType | null;
+}
+
+interface FitBoundsProps {
+     locals: LocalType[];
+     selectedLocal: LocalType | null;
 }
 
 // helper function to zoom into the state that has been searched
-function FitBounds({ locals }: LocalMapProps) {
+function FitBounds({ locals, selectedLocal }: FitBoundsProps) {
      const map = useMap();
 
      useEffect(() => {
+
+
+          // MoveToSelectedLocal controls the map while a card is selected
+          if (selectedLocal !== null) {
+               return;
+          }
+
           if (locals.length === 0) {
                return;
           }
@@ -59,8 +95,36 @@ function FitBounds({ locals }: LocalMapProps) {
      return null;
 }
 
+// makes the map zoom to whatever local is clicked on
+function MoveToSelectedLocal({ selectedLocal }: SelectedLocalProps) {
+     const map = useMap();
+
+     useEffect(() => {
+          if (
+               selectedLocal?.latitude === null ||
+               selectedLocal?.longitude === null ||
+               selectedLocal === null
+          ) {
+               return;
+          }
+
+          map.flyTo(
+               [
+                    selectedLocal.latitude as number,
+                    selectedLocal.longitude as number
+               ],
+               11,
+               {
+                    duration: 1.25
+               }
+          );
+     }, [selectedLocal, map]);
+
+     return null;
+}
+
 // renders a leaflet map of the area that's been queried
-export default function LocalMap({ locals }: LocalMapProps) {
+export default function LocalMap({ locals, selectedLocal, setSelectedLocal}: LocalMapProps) {
      const localsWithCoordinates = locals.filter(
           (local) =>
                local.latitude !== null &&
@@ -78,11 +142,14 @@ export default function LocalMap({ locals }: LocalMapProps) {
 
                <TileLayer // populate the empty map area with OpenStreetMap tiles
                     attribution="&copy; OpenStreetMap contributors"
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" 
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                />
 
-               <FitBounds locals={localsWithCoordinates } />
-               
+               <FitBounds locals={localsWithCoordinates}
+                    selectedLocal={selectedLocal} />
+
+               <MoveToSelectedLocal selectedLocal={selectedLocal} />
+
                {localsWithCoordinates.map((local) => ( // render one marker per latitude, longitude coordinate pair
                     <Marker
                          key={local.id}
@@ -90,6 +157,25 @@ export default function LocalMap({ locals }: LocalMapProps) {
                               local.latitude as number,
                               local.longitude as number
                          ]}
+                         icon={
+                              selectedLocal?.id === local.id
+                                   ? selectedIcon
+                                   : defaultIcon
+                         }
+                         zIndexOffset={
+                              selectedLocal?.id === local.id
+                                   ? 1000
+                                   : 0
+                         }
+                         eventHandlers={{
+                              click: () => {
+                                   setSelectedLocal((currentLocal) =>
+                                        currentLocal?.id === local.id
+                                             ? null
+                                             : local
+                                   );
+                              }
+                         }}
                     >
 
                          <Popup>
@@ -107,3 +193,4 @@ export default function LocalMap({ locals }: LocalMapProps) {
 
      );
 }
+

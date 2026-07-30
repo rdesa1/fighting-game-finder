@@ -1,37 +1,62 @@
+import { forwardRef } from 'react'; // for giving every results card a ref
 import type { Local as LocalType } from "../types/local.ts";
 import "../styles/local.css";
 
 interface LocalProps {
      local: LocalType;
+     onClick: () => void;
+     selected: boolean;
 }
 
-export default function Local({ local }: LocalProps) {
-     return (
-          <li className="local-card">
-               <h3>{local.name}</h3>
+const Local = forwardRef<HTMLLIElement, LocalProps>( // HTMLLIElement means the ref points to an HTML list item
+     ({ local, onClick, selected }, ref) => {
+          return (
+               <li
+                    ref={ref}
+                    className={
+                    selected
+                         ? "local-card selected"
+                         : "local-card"
+               }
+                    onClick={onClick}
+                    onKeyDown={(event) => {
+                         if (event.key === "Enter" || event.key === " ") {
+                              event.preventDefault();
+                              onClick();
+                         }
+                    }
+                    }
+                    role="button"
+                    tabIndex={0}
+               >
+                    <h3>{local.name}</h3>
 
-               <div className="local-section">
-                    <strong>Venue: </strong>
-                    <span>{local.venue}</span>
+                    <div className="local-section">
+                         <strong>Venue: </strong>
+                         <span>{local.venue}</span>
 
-               </div>
+                    </div>
 
-               <div className="local-section">
-                    <strong>Address: </strong>
-                    <span>{local.metro_area}, {local.subnational}, {local.address}</span>
-               </div>
+                    <div className="local-section">
+                         <strong>Address: </strong>
+                         <span>{local.metro_area}, {local.subnational}, {local.address}</span>
+                    </div>
 
-               <div className="local-section">
-                    <strong>Schedule: </strong>
-                    <span>{local.frequency} on {local.day}</span>
+                    <div className="local-section">
+                         <strong>Schedule: </strong>
+                         <span>{local.frequency} on {local.day}</span>
 
-               </div>
+                    </div>
 
-               <div className="local-section">
-                    <strong>Type: </strong>
-                    <span>{local.event_type}</span>
-               </div>
+                    <div className="local-section">
+                         <strong>Type: </strong>
+                         <span>{local.event_type}</span>
+                    </div>
 
-          </li>
-     );
-}
+               </li>
+
+
+          );
+     }
+);
+export default Local;
