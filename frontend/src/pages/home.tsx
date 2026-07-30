@@ -1,7 +1,7 @@
 // https://react.dev/reference/react-dom/components/input#reading-the-input-values-when-submitting-a-form
 
 import axios from "axios";
-import React, { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Searchbar from '../components/searchbar.tsx';
 import "../styles/home.css";
 import Local from "../components/local.tsx";
@@ -15,6 +15,47 @@ export default function Home() {
      const [loading, setLoading] = useState(false);
      const [error, setError] = useState("");
      const [selectedLocal, setSelectedLocal] = useState<LocalType | null>(null);
+
+     // create a map of refs
+     const cardRefs = useRef(new Map<number, HTMLLIElement>());
+
+     // create a reference to the results panel that contains the results cards
+     const resultsPanelRef = useRef<HTMLDivElement>(null);
+
+     // when a marker has been clicked, scroll its associated results card into view
+     useEffect(() => {
+          if (!selectedLocal) {
+               return;
+          }
+
+          const selectedCard =
+               cardRefs.current.get(selectedLocal.id);
+
+          const resultsPanel = resultsPanelRef.current;
+
+          if (!selectedCard || !resultsPanel) {
+               return;
+          }
+
+          const cardRectangle =
+               selectedCard.getBoundingClientRect();
+
+          const panelRectangle =
+               resultsPanel.getBoundingClientRect();
+
+          const scrollPosition =
+               resultsPanel.scrollTop +
+               cardRectangle.top -
+               panelRectangle.top -
+               resultsPanel.clientHeight / 2 +
+               selectedCard.clientHeight / 2;
+
+          resultsPanel.scrollTo({
+               top: scrollPosition,
+               behavior: "smooth"
+          });
+
+     }, [selectedLocal]);
 
      // parent event handler to retrieve the search term
      const handleSubmit = async (subnational: string,
@@ -30,6 +71,7 @@ export default function Home() {
                setLoading(true);
                setError("");
                setResults([]);
+               setSelectedLocal(null);
 
                const res = await axios.get(url, {
                     timeout: 5000,
@@ -80,11 +122,20 @@ export default function Home() {
 
                {results.length > 0 && (
                     <div className="search-results">
-                         <div className="results-panel">
+                         <div className="results-panel"
+                              ref={resultsPanelRef }>
                               <ul className="local-list">
                                    {results.map((local) => (
                                         <Local
                                              key={local.id}
+                                             ref={(element) => {
+                                                  if (element) {
+                                                       cardRefs.current.set(local.id, element);
+                                                  }
+                                                  else {
+                                                       cardRefs.current.delete(local.id);
+                                                  }
+                                             }}
                                              local={local}
                                              selected={selectedLocal?.id === local.id}
                                              onClick={() => {
