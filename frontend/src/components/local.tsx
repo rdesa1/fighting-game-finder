@@ -10,14 +10,20 @@ interface LocalProps {
 
 const Local = forwardRef<HTMLLIElement, LocalProps>( // HTMLLIElement means the ref points to an HTML list item
      ({ local, onClick, selected }, ref) => {
+
+          // Check whether a local has coordinates. If not, display a message saying so.
+          const hasCoordinates =
+               local.latitude !== null &&
+               local.longitude !== null;
+
           return (
                <li
                     ref={ref}
                     className={
-                    selected
-                         ? "local-card selected"
-                         : "local-card"
-               }
+                         selected
+                              ? "local-card selected"
+                              : "local-card"
+                    }
                     onClick={onClick}
                     onKeyDown={(event) => {
                          if (event.key === "Enter" || event.key === " ") {
@@ -52,6 +58,12 @@ const Local = forwardRef<HTMLLIElement, LocalProps>( // HTMLLIElement means the 
                          <strong>Type: </strong>
                          <span>{local.event_type}</span>
                     </div>
+
+                    {!hasCoordinates && (
+                         <div className="map-location-unavailable">
+                              Map location unavailable
+                         </div>
+                    )}
 
                </li>
 
