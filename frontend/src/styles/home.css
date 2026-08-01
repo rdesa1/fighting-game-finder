@@ -11,7 +11,8 @@
      min-height: 0;
      overflow-y: auto;
      overflow-x: hidden;
-     padding-right: 0.75rem;
+     /*     padding-right: 0.75rem;*/
+     padding: 0.6rem 0.75rem 0 0.4rem;
      scrollbar-width: thin;
      scrollbar-color: var(--border) transparent;
 }
@@ -81,4 +82,28 @@
      .map-panel {
           height: 500px;
      }
+}
+
+.search-hero {
+     width: min(950px, 92vw);
+     margin: 1.25rem auto 0;
+}
+
+.search-hero-content {
+     text-align: center;
+}
+
+.search-hero h1 {
+     margin: 0;
+     font-size: clamp(2.25rem, 4vw, 3.5rem);
+     line-height: 1.1;
+}
+
+.search-hero-subtitle {
+     margin: 0.5rem 0 1rem;
+}
+
+.result-count {
+     text-align: center;
+     margin: 0.75rem 0;
 }
