@@ -92,9 +92,19 @@ export default function Home() {
      return (
 
           <>
-               <Searchbar
-                    onSubmit={handleSubmit}
-               />
+               <section className="search-hero">
+                    <div className="search-hero-content">
+                         <h1>Fighting Game Finder</h1>
+
+                         <p className="search-hero-subtitle">
+                              Find your local fighting game community
+                         </p>
+
+                         <Searchbar
+                              onSubmit={handleSubmit}
+                         />
+                    </div>
+               </section>
 
                {loading && (
                     <p className="loading-message">
@@ -123,7 +133,7 @@ export default function Home() {
                {results.length > 0 && (
                     <div className="search-results">
                          <div className="results-panel"
-                              ref={resultsPanelRef }>
+                              ref={resultsPanelRef}>
                               <ul className="local-list">
                                    {results.map((local) => (
                                         <Local

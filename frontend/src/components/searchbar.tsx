@@ -2,6 +2,7 @@
 // events: https://react.dev/learn/responding-to-events
 
 import React, { useState } from "react";
+import "../styles/searchbar.css";
 
 interface SearchbarProps {
      onSubmit: (subnational: string,
@@ -29,20 +30,26 @@ export default function Searchbar({ onSubmit }
      // We render 2 different search bars, one for the State (mandatory) and one for city (optional)
      return (
 
-          <form onSubmit={handleSubmit}>
+          <form
+               className="search-form"
+               onSubmit={handleSubmit}>
                <input
+                    className="search-input"
                     placeholder={"Enter your State"}
                     value={subnational}
                     onChange={(e) => setSubnational(e.target.value)}
                     required
                />
                <input
+                    className="search-input"
                     placeholder="Enter your City (optional)"
                     value={metroArea}
                     onChange={(e) => setMetroArea(e.target.value)}
 
                />
-               <button type="submit">
+               <button
+                    className="search-button"
+                    type="submit">
                     Search
                </button>
           </form>
