@@ -1,44 +1,50 @@
 .local-list {
-     list-style: none;
-     padding: 0;
-     margin: 0;
      width: 100%;
+     margin: 0;
+     padding: 0;
+     list-style: none;
 }
 
 .local-card {
      width: 100%;
      box-sizing: border-box;
-     border: 1px solid #ddd;
-     border-radius: 12px;
-     padding: 1rem 1.75rem 1.75rem;
      margin-bottom: 1.2rem;
-     background: white;
+     padding: 1rem 1.75rem 1.75rem;
+     border: 1px solid var(--border);
+     border-radius: var(--radius-medium);
+     color: var(--text-primary);
+     background: var(--surface);
      text-align: left;
      cursor: pointer;
-     transition:
-          transform 0.15s ease,
-          box-shadow 0.15s ease,
-          border-color 0.15s ease;
+     transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
 }
 
      .local-card h3 {
+          margin-top: 0;
+          margin-bottom: 1.5rem;
+          color: var(--text-primary);
           text-align: center;
           font-size: 1.25rem;
           line-height: 1.4;
-          margin-top: 0;
-          margin-bottom: 1.5rem;
      }
 
-.local-card:hover {
-     transform: translateY(-2px);
-     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-     border-color: #aaa;
-}
+     .local-card:hover {
+          transform: translateY(-2px);
+          border-color: #555b68;
+          background: var(--surface-raised);
+          box-shadow: var(--shadow-small);
+     }
 
-.local-card:focus-visible {
-     outline: 3px solid #4a90e2;
-     outline-offset: 2px;
-}
+     .local-card:focus-visible {
+          outline: 3px solid var(--focus);
+          outline-offset: 2px;
+     }
+
+     .local-card.selected {
+          border: 2px solid var(--accent);
+          background: var(--surface-raised);
+          box-shadow: 0 0 0 3px var(--accent-soft), var(--shadow-small);
+     }
 
 .local-section {
      display: grid;
@@ -48,28 +54,29 @@
      line-height: 1.5;
 }
 
-     .local-section:last-child {
+     .local-section:last-of-type {
           margin-bottom: 0;
      }
 
      .local-section strong {
           width: auto;
+          color: var(--text-secondary);
      }
 
      .local-section span {
-          padding-left: 0;
           min-width: 0;
+          padding-left: 0;
+          color: var(--text-primary);
           overflow-wrap: anywhere;
      }
 
-.local-card.selected {
-     border: 2px solid #d32f2f;
-     box-shadow: 0 6px 16px rgba(211, 4, 47, 0.18);
-}
-
 .map-location-unavailable {
-     margin-top: .75rem;
-     font-size: .9rem;
+     margin-top: 1rem;
+     padding: 0.65rem 0.75rem;
+     border-left: 3px solid #d9a441;
+     border-radius: 4px;
+     color: #e2c981;
+     background: rgba(217, 164, 65, 0.1);
+     font-size: 0.9rem;
      font-style: italic;
-     opacity: .75;
 }
