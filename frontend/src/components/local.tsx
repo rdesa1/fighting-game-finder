@@ -11,6 +11,12 @@ interface LocalProps {
 const Local = forwardRef<HTMLLIElement, LocalProps>( // HTMLLIElement means the ref points to an HTML list item
      ({ local, onClick, selected }, ref) => {
 
+
+          // Create a link to google maps for non-null addresses
+          const googleMapsUrl =
+               `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(local.address)
+               }`;
+
           // Check whether a local has coordinates. If not, display a message saying so.
           const hasCoordinates =
                local.latitude !== null &&
@@ -58,6 +64,16 @@ const Local = forwardRef<HTMLLIElement, LocalProps>( // HTMLLIElement means the 
                          <strong>Type: </strong>
                          <span>{local.event_type}</span>
                     </div>
+
+                    <a
+                         className="maps-button"
+                         href={googleMapsUrl}
+                         target="_blank"
+                         rel="noopener noreferrer"
+                         onClick={(event) => event.stopPropagation}
+                    >
+                         Get directions in Google Maps
+                    </a>
 
                     {!hasCoordinates && (
                          <div className="map-location-unavailable">
