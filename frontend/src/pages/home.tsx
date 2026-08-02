@@ -68,6 +68,7 @@ export default function Home() {
                url += `/${encodeURIComponent(metroArea)}`;
           }
           try {
+               setHasSearched(true);
                setLoading(true);
                setError("");
                setResults([]);
@@ -79,7 +80,7 @@ export default function Home() {
 
                console.log(res.data);
                setResults(res.data.results); // useState is used to update the search term variable
-               setHasSearched(true);
+               
           }
           catch (err) {
                console.error(err);
@@ -92,7 +93,13 @@ export default function Home() {
      return (
 
           <>
-               <section className="search-hero">
+               <section
+                    className={
+                         hasSearched
+                              ? "search-hero"
+                              : "search-hero search-hero-initial"
+                    }
+               >
                     <div className="search-hero-content">
                          <h1>Fighting Game Finder</h1>
 

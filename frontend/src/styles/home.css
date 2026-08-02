@@ -101,3 +101,7 @@
 .search-hero-subtitle {
      margin: 0.75rem 0 1.25rem;
 }
+
+.search-hero-initial {
+     margin-top: clamp(8rem, 22vh, 14rem);
+}
