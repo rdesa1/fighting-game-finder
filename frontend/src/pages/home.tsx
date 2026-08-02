@@ -92,7 +92,13 @@ export default function Home() {
      return (
 
           <>
-               <section className="search-hero">
+               <section
+                    className={
+                         hasSearched
+                              ? "search-hero"
+                              : "search-hero search-hero-initial"
+                    }
+               >
                     <div className="search-hero-content">
                          <h1>Fighting Game Finder</h1>
 
