@@ -1,5 +1,6 @@
 import { forwardRef } from 'react'; // for giving every results card a ref
 import type { Local as LocalType } from "../types/local.ts";
+import { MapPin, ExternalLink } from "lucide-react";
 import "../styles/local.css";
 
 interface LocalProps {
@@ -70,9 +71,13 @@ const Local = forwardRef<HTMLLIElement, LocalProps>( // HTMLLIElement means the 
                          href={googleMapsUrl}
                          target="_blank"
                          rel="noopener noreferrer"
-                         onClick={(event) => event.stopPropagation}
+                         onClick={(event) => event.stopPropagation()}
                     >
-                         Get directions in Google Maps
+                         <MapPin size={18}
+                              strokeWidth={2} />
+                         <span> Get directions in Google Maps </span>
+                         <ExternalLink size={16}
+                              strokeWidth={2} />
                     </a>
 
                     {!hasCoordinates && (
@@ -82,8 +87,6 @@ const Local = forwardRef<HTMLLIElement, LocalProps>( // HTMLLIElement means the 
                     )}
 
                </li>
-
-
           );
      }
 );

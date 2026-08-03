@@ -101,6 +101,7 @@
           border-color 0.15s ease,
           color 0.15s ease,
           transform 0.15s ease;
+     gap: 0.55rem;
 }
 
 .maps-button:hover {
