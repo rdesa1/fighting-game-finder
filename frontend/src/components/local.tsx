@@ -82,7 +82,7 @@ const Local = forwardRef<HTMLLIElement, LocalProps>( // HTMLLIElement means the 
 
                     {!hasCoordinates && (
                          <div className="map-location-unavailable">
-                              Map location unavailable
+                              Map marker unavailable
                          </div>
                     )}
 
