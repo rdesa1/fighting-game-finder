@@ -4,9 +4,9 @@ import "leaflet/dist/leaflet.css"
 import type { Dispatch, SetStateAction } from "react";
 import type { Local as LocalType } from "../types/local.ts";
 import "../styles/LocalMap.css" // Without an explicit height, the map will not render
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useMap } from "react-leaflet";
-import L from "leaflet";
+import L, { popup } from "leaflet";
 
 import {
      MapContainer,
@@ -90,7 +90,7 @@ function FitBounds({ locals, selectedLocal }: FitBoundsProps) {
           map.fitBounds(bounds, {
                padding: [50, 50]
           });
-     }, [locals, map]);
+     }, [locals, selectedLocal, map]);
 
      return null;
 }
@@ -124,12 +124,26 @@ function MoveToSelectedLocal({ selectedLocal }: SelectedLocalProps) {
 }
 
 // renders a leaflet map of the area that's been queried
-export default function LocalMap({ locals, selectedLocal, setSelectedLocal}: LocalMapProps) {
+export default function LocalMap({ locals, selectedLocal, setSelectedLocal }: LocalMapProps) {
      const localsWithCoordinates = locals.filter(
           (local) =>
                local.latitude !== null &&
                local.longitude !== null
      );
+
+     const [popupLocal, setPopupLocal] =
+          useState<LocalType | null>(null);
+
+     /* Prevent the case where, if we select a marker by clicking on its results card, directly clicking the marker
+     to deselect it will render its popup. */
+     useEffect(() => {
+          if (
+               popupLocal &&
+               selectedLocal?.id !== popupLocal.id
+          ) {
+               setPopupLocal(null);
+          }
+     }, [selectedLocal, popupLocal])
 
      return (
 
@@ -169,26 +183,45 @@ export default function LocalMap({ locals, selectedLocal, setSelectedLocal}: Loc
                          }
                          eventHandlers={{
                               click: () => {
-                                   setSelectedLocal((currentLocal) =>
-                                        currentLocal?.id === local.id
-                                             ? null
-                                             : local
-                                   );
+                                   const markerIsSelected =
+                                        selectedLocal?.id === local.id
+
+                                   if (markerIsSelected) {
+                                        setSelectedLocal(null);
+                                        setPopupLocal(null);
+                                        return;
+                                   }
+
+                                   setSelectedLocal(local);
+                                   setPopupLocal(local);
                               }
                          }}
                     >
 
-                         <Popup>
-                              <strong>{local.name}</strong>
-                              <br />
-                              {local.venue}
-                              <br />
-                              {local.metro_area}, {local.subnational}
-                              <br />
-                              {local.address}
-                         </Popup>
                     </Marker>
+
                ))}
+
+               {popupLocal &&
+                    popupLocal.latitude !== null &&
+                    popupLocal.longitude !== null && (
+                         <Popup
+                              position={[
+                                   popupLocal.latitude,
+                                   popupLocal.longitude
+                              ]}
+                              offset={[0, -45]}
+                         >
+                              <strong>{popupLocal.name}</strong>
+                              <br />
+                              {popupLocal.venue}
+                              <br />
+                              {popupLocal.metro_area}, {popupLocal.subnational}
+                              <br />
+                              {popupLocal.address}
+                         </Popup>
+                    )
+               }
           </MapContainer>
 
      );
