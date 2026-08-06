@@ -105,3 +105,30 @@
 .search-hero-initial {
      margin-top: clamp(8rem, 22vh, 14rem);
 }
+
+.home-title-button {
+     margin: 0;
+     padding: 0;
+     border: none;
+     color: inherit;
+     background: transparent;
+     font: inherit;
+     font-weight: inherit;
+     line-height: inherit;
+     cursor: pointer;
+     transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+     .home-title-button:hover {
+          opacity: 0.88;
+     }
+
+     .home-title-button:active {
+          transform: scale(0.99);
+     }
+
+     .home-title-button:focus-visible {
+          outline: 3px solid var(--focus);
+          outline-offset: 6px;
+          border-radius: 6px;
+     }
