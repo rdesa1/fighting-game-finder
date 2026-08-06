@@ -1,12 +1,11 @@
 /* This component renders the map feature as imported from Leaflet. */
 
 import "leaflet/dist/leaflet.css"
-import type { Dispatch, SetStateAction } from "react";
 import type { Local as LocalType } from "../types/local.ts";
 import "../styles/LocalMap.css" // Without an explicit height, the map will not render
 import { useEffect, useState } from "react";
 import { useMap } from "react-leaflet";
-import L, { popup } from "leaflet";
+import L from "leaflet";
 
 import {
      MapContainer,
@@ -184,9 +183,17 @@ export default function LocalMap({ locals, selectedLocal, setSelectedLocal }: Lo
                          eventHandlers={{
                               click: () => {
                                    const markerIsSelected =
-                                        selectedLocal?.id === local.id
+                                        selectedLocal?.id === local.id;
 
-                                   if (markerIsSelected) {
+                                   const popupIsOpen =
+                                        popupLocal?.id === local.id;
+
+                                   if (markerIsSelected && !popupIsOpen) {
+                                        setPopupLocal(local);
+                                        return;
+                                   }
+
+                                   if (markerIsSelected && popupIsOpen) {
                                         setSelectedLocal(null);
                                         setPopupLocal(null);
                                         return;
@@ -206,11 +213,16 @@ export default function LocalMap({ locals, selectedLocal, setSelectedLocal }: Lo
                     popupLocal.latitude !== null &&
                     popupLocal.longitude !== null && (
                          <Popup
-                              position={[
-                                   popupLocal.latitude,
-                                   popupLocal.longitude
-                              ]}
-                              offset={[0, -45]}
+                         position={[
+                              popupLocal.latitude,
+                              popupLocal.longitude
+                         ]}
+                         offset={[0, -45]} // manually offset the popup so that it doesn't replace the marker itself
+                         eventHandlers={{
+                              remove: () => {
+                                   setPopupLocal(null); // clicking the marker after closing the popup will reopen the popup
+                              }
+                         } }
                          >
                               <strong>{popupLocal.name}</strong>
                               <br />
