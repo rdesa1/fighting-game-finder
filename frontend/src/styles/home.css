@@ -105,3 +105,32 @@
 .search-hero-initial {
      margin-top: clamp(8rem, 22vh, 14rem);
 }
+
+.home-hero-button {
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     margin: 0 auto;
+     padding: 0;
+     border: none;
+     background: transparent;
+     color: inherit;
+     font: inherit;
+     text-align: center;
+     cursor: pointer;
+     transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+     .home-hero-button:hover {
+          opacity: 0.9;
+     }
+
+     .home-hero-button:active {
+          transform: scale(0.99);
+     }
+
+     .home-hero-button:focus-visible {
+          outline: 3px solid var(--focus);
+          outline-offset: 6px;
+          border-radius: 8px;
+     }
