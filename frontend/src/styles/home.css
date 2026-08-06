@@ -106,29 +106,31 @@
      margin-top: clamp(8rem, 22vh, 14rem);
 }
 
-.home-title-button {
-     margin: 0;
+.home-hero-button {
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     margin: 0 auto;
      padding: 0;
      border: none;
-     color: inherit;
      background: transparent;
+     color: inherit;
      font: inherit;
-     font-weight: inherit;
-     line-height: inherit;
+     text-align: center;
      cursor: pointer;
      transition: opacity 0.15s ease, transform 0.15s ease;
 }
 
-     .home-title-button:hover {
-          opacity: 0.88;
+     .home-hero-button:hover {
+          opacity: 0.9;
      }
 
-     .home-title-button:active {
+     .home-hero-button:active {
           transform: scale(0.99);
      }
 
-     .home-title-button:focus-visible {
+     .home-hero-button:focus-visible {
           outline: 3px solid var(--focus);
           outline-offset: 6px;
-          border-radius: 6px;
+          border-radius: 8px;
      }

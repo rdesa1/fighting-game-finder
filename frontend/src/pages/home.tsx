@@ -121,20 +121,22 @@ export default function Home() {
                     }
                >
                     <div className="search-hero-content">
-                         <h1>
-                              <button
-                                   type="button"
-                                   className="home-title-button"
-                                   onClick={handleReturnHome}
-                                   aria-label="Return to the home page"
-                              >
-                                   Fighting Game Finder
-                              </button>
-                         </h1>
+                         <button
+                              type="button"
+                              className="home-hero-button"
+                              onClick={(event) => {
+                                   handleReturnHome();
+                                   event.currentTarget.blur(); // hide the outline around the hero after clicking it 
+                              }}
+                              aria-label="Return to the home page"
+                         >
+                              <h1>Fighting Game Finder</h1>
 
-                         <p className="search-hero-subtitle">
-                              Find your local fighting game community
-                         </p>
+
+                              <p className="search-hero-subtitle">
+                                   Find your local fighting game community
+                              </p>
+                         </button>
 
                          <Searchbar
                               key={searchbarKey}
