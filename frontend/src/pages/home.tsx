@@ -15,6 +15,7 @@ export default function Home() {
      const [loading, setLoading] = useState(false);
      const [error, setError] = useState("");
      const [selectedLocal, setSelectedLocal] = useState<LocalType | null>(null);
+     const [searchbarKey, setSearchbarKey] = useState(0);
 
      // create a map of refs
      const cardRefs = useRef(new Map<number, HTMLLIElement>());
@@ -80,7 +81,7 @@ export default function Home() {
 
                console.log(res.data);
                setResults(res.data.results); // useState is used to update the search term variable
-               
+
           }
           catch (err) {
                console.error(err);
@@ -88,6 +89,25 @@ export default function Home() {
           } finally {
                setLoading(false);
           }
+     };
+
+     // Clicking the app's title will clear all search parameters, effectively returning home
+     const handleReturnHome = () => {
+          setResults([]);
+          setHasSearched(false);
+          setLoading(false);
+          setError("")
+          setSelectedLocal(null);
+
+          cardRefs.current.clear();
+
+          // recreate the searchbar
+          setSearchbarKey((currentKey) => currentKey + 1);
+
+          window.scrollTo({
+               top: 0,
+               behavior: "smooth"
+          });
      };
 
      return (
@@ -101,7 +121,16 @@ export default function Home() {
                     }
                >
                     <div className="search-hero-content">
-                         <h1>Fighting Game Finder</h1>
+                         <h1>
+                              <button
+                                   type="button"
+                                   className="home-title-button"
+                                   onClick={handleReturnHome}
+                                   aria-label="Return to the home page"
+                              >
+                                   Fighting Game Finder
+                              </button>
+                         </h1>
 
                          <p className="search-hero-subtitle">
                               Find your local fighting game community
