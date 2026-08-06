@@ -137,6 +137,7 @@ export default function Home() {
                          </p>
 
                          <Searchbar
+                              key={searchbarKey}
                               onSubmit={handleSubmit}
                          />
                     </div>
