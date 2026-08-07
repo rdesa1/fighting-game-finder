@@ -1,9 +1,11 @@
 // https://react.dev/reference/react-dom/components/input#reading-the-input-values-when-submitting-a-form
 
 import axios from "axios";
+import { Info } from "lucide-react";
 import { useState, useEffect, useRef } from 'react'
 import Searchbar from '../components/searchbar.tsx';
 import "../styles/home.css";
+import { Link } from "react-router";
 import Local from "../components/local.tsx";
 import type { Local as LocalType } from "../types/local.ts"
 import LocalMap from "../components/LocalMap";
@@ -144,6 +146,14 @@ export default function Home() {
                          />
                     </div>
                </section>
+
+               <Link
+                    to="/about"
+                    className="about-button"
+               >
+                    <Info size={17}></Info>
+                    About
+               </Link>
 
                {loading && (
                     <p className="loading-message">

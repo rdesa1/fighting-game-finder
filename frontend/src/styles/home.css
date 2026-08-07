@@ -134,3 +134,27 @@
           outline-offset: 6px;
           border-radius: 8px;
      }
+
+.about-button {
+     display: flex;
+     align-items: center;
+     gap: 0.25rem;
+     position: absolute;
+     top: 1.5rem;
+     right: 2rem;
+     padding: 0.6rem 1rem;
+     border: 1px solid var(--border);
+     border-radius: 10px;
+     color: var(--text-primary);
+     background: transparent;
+     text-decoration: none;
+     font-weight: 600;
+     transition:
+          background-color 0.15s ease,
+          border-color 0.15s ease;
+}
+
+,about-button:hover {
+     border-color: var(--accent);
+     background: var(--accent-soft);
+}
