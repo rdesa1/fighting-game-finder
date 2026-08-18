@@ -27,7 +27,24 @@
 }
 
 .about-section {
+     width: min(850px, 90vw);
+     margin: 3rem auto 0;
+}
+
+     .about-section p {
+          text-align: left;
+          line-height: 1.6;
+          text-indent: 2rem;
+     }
+
+#what-is {
      margin-top: 5rem;
 }
 
+
+#developer-links {
+     display: flex;
+     justify-content:center;
+     gap: 5rem;
+}
 

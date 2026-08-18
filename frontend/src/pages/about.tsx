@@ -17,24 +17,26 @@ export default function About() {
                     <span>Back</span>
                </Link>
 
-               <section className="about-section">
+               <section className="about-section" id="what-is">
                     <h2>What is Fighting Game Finder?</h2>
 
                     <p>
-                         Fighting Game Finder helps users discover fighting game communities and local events in their area. <br />
-                         Searches are primarily done by state, and can be optionally narrowed by metro area. <br />
-                         Results are viewable on an interactive map, enabling users to ascertain directions to their venue of choice.
+                         Fighting Game Finder helps users discover fighting game communities within the United States.
+                         Searches are primarily done by state, and can be optionally narrowed by metro area.
+                         Results are viewable on an interactive map, enabling users to compare distances between venues.
+                         Users may also obtain directions to their venue of choice through Google Maps.
                     </p>
                </section>
 
 
                <section className="about-section">
-                    <h2>About the Project</h2>
+                    <h2>Technical Details</h2>
 
                     <p>
-                         Fighting Game Finder is a full-stack web application built with React and TypeScript on the frontend,
-                         Flask on the backend, and PostgreSQL for storing local event data. <br />
-                         The application provides a REST API for searching locals and uses Leaflet with OpenStreetMap to visualize venue locations.
+                         Fighting Game Finder is a full-stack web application built with React on the frontend, 
+                         Flask on the backend, and PostgreSQL for storing local event data.
+                         The application provides a REST API for searching locals, and uses Leaflet with OpenStreetMap to visualize venue locations.
+
                     </p>
                </section>
 
@@ -49,8 +51,40 @@ export default function About() {
                          >
                               UltraDavid on Twitter.
                          </a>
-                         <br/>
-                         Venue locations are displayed using Leaflet for rendering the map, and OpenStreetMap for the map tileset.
+                         <br />
+
+                         Currently, only active communities that are located in the United States of America are searchable from the dataset.  
+                    </p>
+               </section>
+
+               <section className="about-section">
+                    <h2>Future Improvements</h2>
+
+                    <p>
+                         Planned features include expanding search results to include locations from around the world.
+                         Additionally, options to filter results, such as by game or schedule, are planned.
+                    </p>
+               </section>
+
+               <section className="about-section">
+                    <h2>Connect with the Developer</h2>
+
+                    <p id="developer-links">
+                         <a id="linkedin-link"
+                              href="https://www.linkedin.com/in/richarddesa/"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                         >
+                              LinkedIn
+                         </a>
+                         
+                         <a id="github-link"
+                              href="https://github.com/rdesa1/fighting-game-finder"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                         >
+                              GitHub
+                         </a>
                     </p>
                </section>
 
