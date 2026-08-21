@@ -154,7 +154,7 @@
           border-color 0.15s ease;
 }
 
-,about-button:hover {
-     border-color: var(--accent);
-     background: var(--accent-soft);
+#home-footer {
+     margin-top: 28.35rem;
+     
 }

@@ -38,13 +38,10 @@
      }
 
 #what-is {
-     margin-top: 5rem;
+     margin-top: 4.5rem;
 }
 
 
-#developer-links {
-     display: flex;
-     justify-content:center;
-     gap: 5rem;
+#about-footer {
+     margin-top: 7.5rem;
 }
-

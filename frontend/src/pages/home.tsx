@@ -4,6 +4,7 @@ import axios from "axios";
 import { Info } from "lucide-react";
 import { useState, useEffect, useRef } from 'react'
 import Searchbar from '../components/searchbar.tsx';
+import "../styles/footer.css";
 import "../styles/home.css";
 import { Link } from "react-router";
 import Local from "../components/local.tsx";
@@ -219,6 +220,31 @@ export default function Home() {
                          </div>
                     </div>
                )}
+
+               {!hasSearched && (
+                    <footer id="home-footer">
+                         <p className="developer-links">
+                              <span>Connect with the developer:</span>
+
+                              <a
+                                   href="https://www.linkedin.com/in/richarddesa/"
+                                   target="_blank"
+                                   rel="noopener noreferrer"
+                              >
+                                   LinkedIn
+                              </a>
+
+                              <a
+                                   href="https://github.com/rdesa1/fighting-game-finder"
+                                   target="_blank"
+                                   rel="noopener noreferrer"
+                              >
+                                   GitHub
+                              </a>
+                         </p>
+                    </footer>
+               )}
+               
 
           </>
      );

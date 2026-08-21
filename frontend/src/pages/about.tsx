@@ -1,6 +1,8 @@
 import { Link } from "react-router";
 import { ArrowLeft } from "lucide-react";
 import "../styles/about.css";
+import "../styles/footer.css";
+
 
 export default function About() {
 
@@ -66,10 +68,10 @@ export default function About() {
                     </p>
                </section>
 
-               <section className="about-section">
-                    <h2>Connect with the Developer</h2>
+               <footer id="about-footer">
 
-                    <p id="developer-links">
+                    <p className="developer-links">
+                         Connect with the developer:
                          <a id="linkedin-link"
                               href="https://www.linkedin.com/in/richarddesa/"
                               target="_blank"
@@ -86,7 +88,7 @@ export default function About() {
                               GitHub
                          </a>
                     </p>
-               </section>
+               </footer>
 
           </main>
      );
