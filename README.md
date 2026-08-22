@@ -4,6 +4,8 @@ Fighting Game Finder is a full-stack web application for discovering active figh
 
 Users can search for local fighting game communities by state and optionally narrow results by metro area. Search results are displayed alongside an interactive map, allowing users to explore venue locations and open directions to a selected venue in Google Maps.
 
+![Fighting Game Finder search results](fighting-game-finder-results.png)
+
 ## Features
 
 * Search for active fighting game communities by state
