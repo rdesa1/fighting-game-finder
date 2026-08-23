@@ -13,6 +13,13 @@ import LocalMap from "../components/LocalMap";
 
 export default function Home() {
 
+     // Get the backend URL from a .env variable
+     const apiBaseUrl = import.meta.env.VITE_API_BASE_URL;
+
+     if (!apiBaseUrl) {
+          throw new Error("VITE_API_BASE_URL is not configured.");
+     }
+
      const [results, setResults] = useState<LocalType[]>([]);
      const [hasSearched, setHasSearched] = useState(false);
      const [loading, setLoading] = useState(false);
@@ -66,7 +73,7 @@ export default function Home() {
           metroArea?: string) => {
 
           let url =
-               `http://127.0.0.1:5000/search/${encodeURIComponent(subnational)}`;
+               `${apiBaseUrl}/search/${encodeURIComponent(subnational)}`;
 
           if (metroArea?.trim()) {
                url += `/${encodeURIComponent(metroArea)}`;
@@ -82,7 +89,6 @@ export default function Home() {
                     timeout: 5000,
                });
 
-               console.log(res.data);
                setResults(res.data.results); // useState is used to update the search term variable
 
           }

@@ -88,7 +88,7 @@ pip install -r requirements.txt
 
 The source dataset is included in `backend/data/`. Import the dataset into PostgreSQL using pgAdmin 4 or another PostgreSQL database management tool.
 
-After importing the data, run the included geocoding script to add the latitude and longitude fields used to display venue locations on the map:
+After importing the data, ensure the latitude and longitude columns exist, then run the included geocoding script to populate coordinates used to display venue locations on the map.
 
 ```bash
 python scripts/geocoding.py
@@ -101,6 +101,7 @@ DATABASE_USER
 DATABASE_PASSWORD
 DATABASE_HOST_NAME
 DATABASE_PORT
+DATABASE_NAME
 ```
 
 A secret key must also be provided through the environment:
