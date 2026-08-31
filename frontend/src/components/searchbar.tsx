@@ -2,40 +2,57 @@
 // events: https://react.dev/learn/responding-to-events
 
 import React, { useState } from "react";
+import "../styles/searchbar.css";
 
 interface SearchbarProps {
-     name: string;
-     placeholder: string;
-     onSubmit: (value: string) => void;
+     onSubmit: (subnational: string,
+          metroArea?: string) => void;
 }
 
-export default function Searchbar({ name, placeholder, onSubmit }
+export default function Searchbar({ onSubmit }
      : SearchbarProps) { // typescript interfaces are syntactically similar to Java interfaces
 
-     const [input, setInput] = useState("")
+     const [subnational, setSubnational] = useState("");
+     const [metroArea, setMetroArea] = useState("")
 
 
      // child event handler to update the search term prop
      const handleSubmit = (e: React.FormEvent) => {
           e.preventDefault();
-          onSubmit(input);
+
+          if (!subnational.trim()) { // ensure the subnational input isn't just empty string.
+               return;
+          }
+
+          onSubmit(subnational, metroArea);
      };
 
-
+     // We render 2 different search bars, one for the State (mandatory) and one for city (optional)
      return (
-          
-          <form onSubmit={handleSubmit}>
-               <input
-                    name={name}
-                    placeholder={placeholder}
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-               />
 
-               <button type="submit">
+          <form
+               className="search-form"
+               onSubmit={handleSubmit}>
+               <input
+                    className="search-input"
+                    placeholder={"Enter your State"}
+                    value={subnational}
+                    onChange={(e) => setSubnational(e.target.value)}
+                    required
+               />
+               <input
+                    className="search-input"
+                    placeholder="Enter your City (optional)"
+                    value={metroArea}
+                    onChange={(e) => setMetroArea(e.target.value)}
+
+               />
+               <button
+                    className="search-button"
+                    type="submit">
                     Search
                </button>
           </form>
      )
-                   
+
 }

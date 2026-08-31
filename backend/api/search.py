@@ -18,6 +18,9 @@ def get_query_results(state, city=None):
     # The database is case sensitive. Ensure the first letter of every word is capitalized.
     state = string.capwords(state)
 
+    # Removes trailing spaces after input
+    state = state.strip()
+
     # load environment variables from a .env file into the application's environment
     load_dotenv()
 
@@ -37,15 +40,19 @@ def get_query_results(state, city=None):
                              row_factory=dict_row) as conn:
             with conn.cursor() as cur:
 
-                if city:                    
+                if city:
+                    city = city.strip()
                     city = normalize_city_name(state, city)
 
-                    print(city)
-                    print(state)
+                    #print(city)
+                    #print(state)
 
                     # Query the database for active locations from the same state ("Subnational" in the table)
                     postgreSQL_select_Query =  '''
                     SELECT
+                        "id" AS ID,
+                        "latitude" as latitude,
+                        "longitude" as longitude,
                         "Event Name" AS name,
                         "Country" AS country,
                         "Subnational" AS state,
@@ -69,6 +76,9 @@ def get_query_results(state, city=None):
                     # Query the database for active locations from the same state and city ("Metro Area")
                     postgreSQL_select_Query = '''
                     SELECT
+                        "id" AS ID,
+                        "latitude" as latitude,
+                        "longitude" as longitude,
                         "Event Name" AS name,
                         "Country" AS country,
                         "Subnational" AS state,
@@ -103,7 +113,7 @@ def normalize_city_name(state, city):
 
     # Check if the provided city is located within Southern California. If yes, normalize it to "SoCal".
     if (state == "California"):
-        if (("Los Angelas" in city) or 
+        if (("Los Angeles" in city) or 
             ("La" in city) or 
             ("LA" in city) or
             ("San Diego" in city) or 
@@ -119,6 +129,14 @@ def normalize_city_name(state, city):
             ("Calexico" in city) or 
             ("Brawley" in city)):
             return ("SoCal")
+
+    # Check if the user is already writing the "SoCal" short-hand. If so, we need to preserve the camel case.
+    if state == "California":
+        if city.lower() in {"socal", "so cal", "southern california"}:
+            return "SoCal"
+
+    
+
 
     # Check if the provided city is located within the Virgina-DMV Metropolitan Area. If yes, normalize it to "DMV".
     elif (state == "Virginia"):
