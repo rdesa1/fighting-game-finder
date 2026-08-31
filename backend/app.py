@@ -18,7 +18,7 @@ frontend_url = os.getenv(
 CORS(
     app,
     resources={
-        r"/search*": {
+        r"/search/*": {
             "origins": frontend_url
             }
         }

@@ -70,6 +70,12 @@ Navigate to the frontend directory and install the required packages:
 npm install
 ```
 
+Configure the URL of the Flask backend using a frontend environment variable:
+
+```text
+VITE_API_BASE_URL=http://127.0.0.1:5000
+```
+
 Start the Vite development server:
 
 ```bash
@@ -112,11 +118,14 @@ DATABASE_PORT
 DATABASE_NAME
 ```
 
-A secret key must also be provided through the environment:
+The backend also uses environment variables for the Flask secret key and allowed frontend origin:
 
 ```text
 SECRET_KEY
+FRONTEND_URL
 ```
+
+`FRONTEND_URL` defaults to `http:://localhost:5173` for local development.
 
 Start the Flask backend after configuring the database connection:
 
