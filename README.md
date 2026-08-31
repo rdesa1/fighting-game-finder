@@ -70,6 +70,12 @@ Navigate to the frontend directory and install the required packages:
 npm install
 ```
 
+Configure the URL of the Flask backend using a frontend environment variable:
+
+```text
+VITE_API_BASE_URL=http://127.0.0.1:5000
+```
+
 Start the Vite development server:
 
 ```bash
@@ -88,7 +94,15 @@ pip install -r requirements.txt
 
 The source dataset is included in `backend/data/`. Import the dataset into PostgreSQL using pgAdmin 4 or another PostgreSQL database management tool.
 
-After importing the data, run the included geocoding script to add the latitude and longitude fields used to display venue locations on the map:
+The application uses geographic coordinates to display venue locations on the map. After importing the dataset, add `latitude` and `longitude` columns to the `"Locals"` table:
+
+```sql
+ALTER TABLE "Locals"
+ADD COLUMN latitude DOUBLE PRECISION,
+ADD COLUMN longitude DOUBLE PRECISION;
+```
+
+The imported dataset does not provide coordinates for each venue. Run the included geocoding script to obtain coordinates from venue addresses and populate the `latitude` and `longitude` columns:
 
 ```bash
 python scripts/geocoding.py
@@ -101,13 +115,17 @@ DATABASE_USER
 DATABASE_PASSWORD
 DATABASE_HOST_NAME
 DATABASE_PORT
+DATABASE_NAME
 ```
 
-A secret key must also be provided through the environment:
+The backend also uses environment variables for the Flask secret key and allowed frontend origin:
 
 ```text
 SECRET_KEY
+FRONTEND_URL
 ```
+
+`FRONTEND_URL` defaults to `http:://localhost:5173` for local development.
 
 Start the Flask backend after configuring the database connection:
 
