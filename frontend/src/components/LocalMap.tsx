@@ -14,6 +14,7 @@ import {
      TileLayer
 } from "react-leaflet";
 
+// default Icon and selectedIcon are the 2 differently colored map markers that are rendered 
 const defaultIcon = L.icon({
      iconUrl: "/img/marker-icon-blue.png",
      shadowUrl: "/img/marker-shadow.png",
@@ -32,8 +33,8 @@ const selectedIcon = L.icon({
 interface LocalMapProps {
      locals: LocalType[];
      selectedLocal: LocalType | null;
-     setSelectedLocal: React.Dispatch<
-          React.SetStateAction<LocalType | null>
+     setSelectedLocal: React.Dispatch< /* Looks complex but React just gives a verbose return type to state setters (useState variables) */
+          React.SetStateAction<LocalType | null> 
      >;
 }
 
@@ -212,7 +213,7 @@ export default function LocalMap({ locals, selectedLocal, setSelectedLocal }: Lo
                {popupLocal &&
                     popupLocal.latitude !== null &&
                     popupLocal.longitude !== null && (
-                         <Popup
+                         <Popup // Popups are the small text box that appears when clicking a marker
                          position={[
                               popupLocal.latitude,
                               popupLocal.longitude
