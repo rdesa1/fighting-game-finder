@@ -3,7 +3,6 @@
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router';
 import Home from './pages/home.tsx';
-import Search_results from './pages/search_results.tsx';
 import Test from './sandbox/test.tsx';
 import About from './pages/about.tsx';
 
