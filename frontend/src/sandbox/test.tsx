@@ -6,7 +6,6 @@
 // We were not setting value equal to anything so there was literally no
 // target.value to retrieve
 
-import { useState } from 'react';
 import axios from 'axios';
 import Test_searchbar from '../sandbox/test_searchbar.tsx';
 
