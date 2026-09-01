@@ -36,8 +36,14 @@ def get_query_results(state, city=None):
     results = []
 
     try:
-        with psycopg.connect(f"postgresql://{DATABASE_USER}:{DATABASE_PASSWORD}@{DATABASE_HOST_NAME}:{DATABASE_PORT}/{DATABASE_NAME}", 
-                             row_factory=dict_row) as conn:
+        with psycopg.connect(
+    user=DATABASE_USER,
+    password=DATABASE_PASSWORD,
+    host=DATABASE_HOST_NAME,
+    port=DATABASE_PORT,
+    dbname=DATABASE_NAME,
+    row_factory=dict_row
+) as conn:
             with conn.cursor() as cur:
 
                 if city:
