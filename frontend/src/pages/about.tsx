@@ -1,3 +1,5 @@
+// This is the aboute page, which contains general information regarding the application.
+
 import { Link } from "react-router";
 import { ArrowLeft } from "lucide-react";
 import "../styles/about.css";

@@ -1,3 +1,5 @@
+// This component renders the individual fighting game communities that are returned from a search
+
 import { forwardRef } from 'react'; // for giving every results card a ref
 import type { Local as LocalType } from "../types/local.ts";
 import { MapPin, ExternalLink } from "lucide-react";

@@ -1,3 +1,5 @@
+// This is the home page, which contains the search hero; a DOM element that renders the search bars
+
 // https://react.dev/reference/react-dom/components/input#reading-the-input-values-when-submitting-a-form
 
 import axios from "axios";

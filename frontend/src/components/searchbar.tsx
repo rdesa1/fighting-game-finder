@@ -1,11 +1,14 @@
+// This component renders the searchbars that are used to query the database.
+
 // styling: https://legacy.reactjs.org/docs/faq-styling.html
 // events: https://react.dev/learn/responding-to-events
 
 import React, { useState } from "react";
 import "../styles/searchbar.css";
 
+
 interface SearchbarProps {
-     onSubmit: (subnational: string,
+     onSubmit: (subnational: string, // effectively: onSubmit takes String Subnational, String metroArea (optional) and returns nothing
           metroArea?: string) => void;
 }
 
@@ -24,7 +27,7 @@ export default function Searchbar({ onSubmit }
                return;
           }
 
-          onSubmit(subnational, metroArea);
+          onSubmit(subnational, metroArea); // call the function that was passed as a prop from home.tsx
      };
 
      // We render 2 different search bars, one for the State (mandatory) and one for city (optional)
