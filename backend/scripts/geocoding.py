@@ -1,6 +1,6 @@
 # This script was written to geocode as many locations as possible from the database, 
 # updating the SQL table with longitudinal and latitudinal data to be used for rendering map markers.
-# Geocoding is done through the open source Nominatum API, particuraly the "/search" endpoint.
+# Geocoding is done through the open source Nominatum API, particularly the "/search" endpoint.
 
 import os
 import psycopg
